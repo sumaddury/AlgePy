@@ -1,4 +1,4 @@
-# AlgePy
+# AlgePy: Algebraic Tools in Pure Python
 
 ![AlgePy Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Algebra_Proof_Diagram_Inverse.svg/640px-Algebra_Proof_Diagram_Inverse.svg.png)
 
@@ -12,23 +12,16 @@
 
 ### Functionality
 
-#### DiscreteFunctions
-- **PrimalityTesting:**  
-  Implements deterministic (Sieve of Eratosthenes) and probabilistic (Fermat, Miller–Rabin) methods for testing prime numbers.
-- **PrimeNumberTheorem:**  
-  Provides functions to estimate the density and count of primes.
-- **Factorization:**  
-  Offers algorithms to compute divisors and perform prime factorization.
-- **ArithmeticFunctions:**  
-  Contains number-theoretic functions such as Euler’s totient, Möbius function, Liouville function, and divisor sums.
+#### `DiscreteFunctions`
+- **`PrimalityTesting`:** Implements deterministic (Sieve of Eratosthenes) and probabilistic (Fermat, Miller–Rabin) methods for testing prime numbers.
+- **`PrimeNumberTheorem`:** Provides functions to estimate the density and count of primes.
+- **`Factorization`:** Offers algorithms to compute divisors and perform prime factorization.
+- **`ArithmeticFunctions`:** Contains number-theoretic functions such as Euler’s totient, Möbius function, Liouville function, and divisor sums.
 
-#### SingletonStructures
-- **Z:**  
-  Represents elements of the ring of integers (ℤ) with overloaded arithmetic and number-theoretic checks.
-- **R:**  
-  Models real numbers (ℝ) with standard arithmetic operations.
-- **Z_n & Z_mod_:**  
-  Provide modular arithmetic (ℤₙ) functionality, including methods for computing orders, inverses, cyclicity, primitive roots, and the Legendre symbol.
+#### `SingletonStructures`
+- **`Z`:**  Represents elements of the ring of integers (ℤ) with overloaded arithmetic and number-theoretic checks.
+- **`R`:**  Models real numbers (ℝ) with standard arithmetic operations.
+- **`Z_n` & `Z_mod_`:**  Provide modular arithmetic (ℤₙ) functionality, including methods for computing orders, inverses, cyclicity, primitive roots, and the Legendre symbol.
 
 AlgePy also integrates empirical complexity analysis to assess the performance of its algorithms.
 
@@ -73,10 +66,8 @@ print("a + b =", a + b)
 ---
 ## 3. Documentation
 
-### Full Documentation: 
-https://sumaddury.github.io/AlgePy/
-### Complexity Analysis: 
-./complexity/complexity_report.pdf
+### Full Documentation: https://sumaddury.github.io/AlgePy/
+### Complexity Analysis: https://sumaddury/algepy/complexity/complexity_report.pdf
 
 ---
 ## 4. Citation
