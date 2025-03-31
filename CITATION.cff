@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: "AlgePy"
+version: "0.0.1"
+date-released: "2025-03-31"
+authors:
+  - given-names: Sucheer
+    family-names: Maddury
+repository-code: "https://github.com/sumaddury/algepy"
+license: "Apache-2.0"
