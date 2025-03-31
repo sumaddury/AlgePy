@@ -66,8 +66,8 @@ print("a + b =", a + b)
 ---
 ## 3. Documentation
 
-### Full Documentation: https://sumaddury.github.io/AlgePy/
-### Complexity Analysis: https://github.com/sumaddury/AlgePy/blob/main/complexity/complexity_report.pdf
+### Full Documentation: [sumaddury.github.io/AlgePy](https://sumaddury.github.io/AlgePy/)
+### Complexity Analysis: [/complexity/complexity_report.pdf](https://github.com/sumaddury/AlgePy/blob/main/complexity/complexity_report.pdf)
 
 ---
 ## 4. Citation
