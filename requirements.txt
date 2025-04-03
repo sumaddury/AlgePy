@@ -1,4 +1,5 @@
 alabaster==1.0.0
+-e git+https://github.com/sumaddury/AlgePy.git@f2bca0651fc7106b24fe6bfdab1a573205c762fd#egg=algepy
 attrs==25.3.0
 babel==2.17.0
 big_O==0.11.0
