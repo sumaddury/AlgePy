@@ -1,7 +1,7 @@
-Algepy API Reference
-====================
+algepy
+======
 
 .. toctree::
    :maxdepth: 4
 
-   src
+   algepy
