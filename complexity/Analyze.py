@@ -2,6 +2,8 @@ import time
 import math
 import big_o
 import matplotlib.pyplot as plt
+import os
+import sys
 
 def analyze_complexity(func, 
                          data_gen, 
@@ -87,3 +89,42 @@ def analyze_complexity(func,
         plt.show()
     
     return best_fit, all_fits, ns_clustered, times_clustered
+
+def safe_data_gen(data_gen, force_int=False):
+    def wrapper(n):
+        value = data_gen(n)
+        if force_int:
+            try:
+                return int(value)
+            except Exception:
+                return value
+        return value
+    return wrapper
+
+def save_plot(ns, times, title, filename):
+    plt.figure(figsize=(8, 5))
+    plt.plot(ns, times, 'bo-', label='Measured Time')
+    plt.xlabel("Input Size (n)")
+    plt.ylabel("Execution Time (sec)")
+    plt.title(title)
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(filename)
+    plt.close()
+
+def generate_report(target_name, best_fit, all_fits, plot_filename):
+    md = []
+    md.append(f"## Complexity Analysis for `{target_name}`\n\n")
+    md.append("**Best Fit Complexity:**\n")
+    md.append(f"`{best_fit}`\n\n")
+    md.append("**Detailed Fit Residuals:**\n")
+    md.append("| Complexity Class      | Residual |\n")
+    md.append("|-----------------------|----------|\n")
+    for comp, res in all_fits.items():
+        md.append(f"| {str(comp):<21} | {res:.2G} |\n")
+    md.append("\n**Execution Time vs. Input Size Plot:**\n")
+    md.append(r"\begin{center}" + "\n")
+    md.append(f"\\includegraphics[width=0.8\\textwidth]{{{plot_filename}}}\n")
+    md.append(r"\end{center}" + "\n")
+    md.append("\n---\n")
+    return "".join(md)

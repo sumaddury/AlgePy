@@ -1,27 +1,32 @@
 import typing
 from typing import Callable, Self
 import math
+import sys
 from DiscreteFunctions import PrimalityTesting, Factorization, ArithmeticFunctions
 
 class Z:
-    """
+    r"""
     Represents an element of the ring of integers, ℤ.
 
-    This class wraps a Python integer and implements standard arithmetic operations (addition, 
-    multiplication, subtraction, etc.) consistent with the algebraic structure of ℤ.
+    This class wraps a Python integer and implements standard arithmetic operations 
+    (addition, multiplication, subtraction, etc.) consistent with the algebraic structure of ℤ.
 
     **Preconditions:**
     
-    - The input `z` must be a Python integer.
+    - The input`z` must be a Python integer.
     
     **Mathematical Intuition:**
     
-    - The set ℤ is closed under addition, multiplication, and subtraction.
-    - This class allows you to work with integers as algebraic objects with operator overloading 
-      mimicking the standard operations in ℤ.
+    The set ℤ is closed under addition, subtraction, and multiplication. In particular, for any 
+    integers :math:`a, b \in \mathbb{Z}`:
+    
+    .. math::
+        a + b \in \mathbb{Z}, \quad a - b \in \mathbb{Z}, \quad a \cdot b \in \mathbb{Z}.
+    
+    This class provides operator overloading so that arithmetic in ℤ can be performed using natural syntax.
     
     :param z: An integer representing the element in ℤ.
-    :raises Exception: If `z` is not an integer.
+    :raises Exception: If`z` is not an integer.
     """
     def __init__(self, z: int) -> Self:
         if isinstance(z, int):
@@ -61,8 +66,15 @@ class Z:
 
     @staticmethod
     def zero() -> Self:
-        """
+        r"""
         Returns the additive identity (0) in ℤ.
+        
+        **Mathematical Intuition:**
+        
+        The identity element :math:`0 \in \mathbb{Z}` satisfies:
+        
+        .. math::
+            a + 0 = a \quad \forall a \in \mathbb{Z}.
         
         :return: The integer 0 wrapped as a Z object.
         """
@@ -70,8 +82,15 @@ class Z:
 
     @staticmethod
     def mul_id() -> Self:
-        """
+        r"""
         Returns the multiplicative identity (1) in ℤ.
+        
+        **Mathematical Intuition:**
+        
+        The identity element :math:`1 \in \mathbb{Z}` satisfies:
+        
+        .. math::
+            a \cdot 1 = a \quad \forall a \in \mathbb{Z}.
         
         :return: The integer 1 wrapped as a Z object.
         """
@@ -79,77 +98,43 @@ class Z:
 
     @staticmethod
     def abs(z: Self) -> Self:
-        """
+        r"""
         Returns the absolute value of the integer element.
+        
+        **Mathematical Intuition:**
+        
+        The absolute value function is defined by:
+        
+        .. math::
+            |a| = \begin{cases} a, & a \ge 0 \\ -a, & a < 0 \end{cases}.
         
         :param z: A Z object.
         :return: A new Z object with the absolute value of z.
         """
         return Z(abs(int(z)))
 
-    @staticmethod
-    def is_perfect(z: Self) -> bool:
-        """
-        Determines whether the integer is perfect.
-
-        **Mathematical Intuition:**
-        
-        - A perfect number equals the sum of its proper divisors. Here we test whether the sum 
-          of all divisors equals 2 * z.
-        
-        **Preconditions:**
-        
-        - The input must be a positive integer.
-        
-        :param z: A Z object.
-        :return: True if z is a perfect number, otherwise False.
-        """
-        return ArithmeticFunctions.σ(int(z)) == 2 * int(z)
-
-    @staticmethod
-    def is_square_free(z: Self) -> bool:
-        """
-        Checks whether the integer is square-free (i.e., no prime factor appears with exponent > 1).
-
-        **Preconditions:**
-        
-        - The input must be a positive integer.
-        
-        **Mathematical Intuition:**
-        
-        - A square-free number is not divisible by any perfect square greater than 1.
-        
-        :param z: A Z object.
-        :return: True if z is square-free; False otherwise.
-        """
-        if int(z) < 1:
-            return False
-        if int(z) == 1:
-            return True
-
-        for p in range(2, math.isqrt(int(z))+1):
-            if PrimalityTesting.eratosthenes_primality(p) and int(z) % (p*p) == 0:
-                return False
-        return True  
-
 class R:
-    """
+    r"""
     Represents an element of the field of real numbers, ℝ.
 
-    This class wraps a real number (float or int) and defines standard arithmetic operations
+    This class wraps a real number (float or int) and defines standard arithmetic operations 
     as they occur in ℝ.
 
     **Preconditions:**
     
-    - The input `r` must be a real number (either an int or float).
+    - The input`r` must be a real number (either an int or a float).
     
     **Mathematical Intuition:**
     
-    - ℝ is a field: every nonzero element has a multiplicative inverse, and all the standard 
-      arithmetic operations are defined.
+    ℝ is a field; every nonzero element has a multiplicative inverse. For any :math:`r, s \in \mathbb{R}`:
+    
+    .. math::
+        r + s \in \mathbb{R}, \quad r \cdot s \in \mathbb{R}, \quad r - s \in \mathbb{R}, \quad \text{and if } r \neq 0,\; \frac{1}{r} \in \mathbb{R}.
+    
+    This class models ℝ using floating-point arithmetic.
     
     :param r: A real number to be encapsulated as an element of ℝ.
-    :raises Exception: If `r` is not a number.
+    :raises Exception: If`r` is not a number.
     """
     def __init__(self, r: float) -> Self:
         if isinstance(r, float) or isinstance(r, int):
@@ -186,8 +171,15 @@ class R:
 
     @staticmethod
     def zero() -> Self:
-        """
+        r"""
         Returns the additive identity (0.0) in ℝ.
+        
+        **Mathematical Intuition:**
+        
+        0 is the unique element satisfying:
+        
+        .. math::
+            r + 0 = r \quad \forall r \in \mathbb{R}.
         
         :return: An R object representing 0.
         """
@@ -195,8 +187,15 @@ class R:
 
     @staticmethod
     def mul_id() -> Self:
-        """
+        r"""
         Returns the multiplicative identity (1.0) in ℝ.
+        
+        **Mathematical Intuition:**
+        
+        1 is the unique element satisfying:
+        
+        .. math::
+            r \cdot 1 = r \quad \forall r \in \mathbb{R}.
         
         :return: An R object representing 1.
         """
@@ -204,8 +203,15 @@ class R:
 
     @staticmethod
     def abs(a: Self) -> Self:
-        """
+        r"""
         Returns the absolute value of a real number element.
+        
+        **Mathematical Intuition:**
+        
+        Defined as:
+        
+        .. math::
+            |r| = \begin{cases} r, & r \ge 0 \\ -r, & r < 0 \end{cases}.
         
         :param a: An R object.
         :return: An R object containing the absolute value of a.
@@ -213,23 +219,27 @@ class R:
         return R(abs(float(a)))
 
 class Z_n:
-    """
+    r"""
     Represents an element of the ring of integers modulo n, ℤₙ.
 
-    Each element is stored as a residue class modulo n. Arithmetic operations are defined modulo n.
-    This class supports addition, multiplication, subtraction, exponentiation, and, for units, 
-    computing inverses and orders.
+    Each element is stored as a residue class modulo n. Arithmetic operations are performed 
+    modulo n. This class supports addition, multiplication, subtraction, exponentiation, and, 
+    for units, computing inverses and orders.
 
     **Preconditions:**
     
-    - The modulus `n` must be a positive integer.
-    - The element `z` must be an integer; it is automatically reduced modulo n.
+    - The modulus`n` must be a positive integer.
+    - The element`z` must be a Python integer; it is automatically reduced modulo n.
     
     **Mathematical Intuition:**
     
-    - ℤₙ forms a ring; when n is prime, ℤₙ forms a field. In ℤₙ, operations are performed modulo n.
-    - The class includes methods to compute the order of an element (when it is invertible) 
-      and to determine the multiplicative inverse.
+    In ℤₙ, for an integer :math:`a` and modulus :math:`n`:
+    
+    .. math::
+        a \mod n \in \{0, 1, \dots, n-1\},
+    
+    and when n is prime, ℤₙ forms a field. This class models the residue classes with the usual 
+    modular arithmetic.
     
     :param z: An integer representing the element in ℤ.
     :param n: The modulus for the residue class.
@@ -245,21 +255,21 @@ class Z_n:
     def __add__(self, b: Self) -> Self:
         if not self.n == b.n:
             raise Exception("unsupported operation")
-        return Z_n(self.z + b.z, self.n)
+        return self.__class__(self.z + b.z, self.n)
 
     def __mul__(self, b: Self) -> Self:
         if not self.n == b.n:
             raise Exception("unsupported operation")
-        return Z_n(self.z * b.z, self.n)
+        return self.__class__(self.z * b.z, self.n)
 
     def __neg__(self) -> Self:
-        return Z_n(-self.z, self.n)
+        return self.__class__(-self.z, self.n)
 
     def __sub__(self, b: Self) -> Self:
         return self + -b
 
     def __pow__(self, b: Z) -> Self:
-        return Z_n(pow(int(self.z), int(b), int(self.n)),self.n)
+        return self.__class__(pow(int(self.z), int(b), int(self.n)),self.n)
 
     def __eq__(self, b: Self) -> bool:
         if not self.n == b.n:
@@ -268,19 +278,22 @@ class Z_n:
 
     def __repr__(self) -> str:
         return str(self.z) + " mod " + str(self.n)
-
+    
     def order(self) -> Z:
-        """
+        r"""
         Compute the order of the element in the multiplicative group of units U(n).
 
-        **Preconditions:**
-        
-        - The element must be a unit in ℤₙ (i.e., coprime with n).
-        
         **Mathematical Intuition:**
         
-        - The order of an element is the smallest positive integer k such that the k-th power 
-          of the element equals the multiplicative identity.
+        For an element :math:`a \in \mathbb{Z}_n` that is invertible, its order is the smallest 
+        positive integer :math:`k` such that:
+        
+        .. math::
+            a^k \equiv 1 \pmod{n}.
+        
+        **Preconditions:**
+        
+        - The element must be a unit (i.e., :math:`\gcd(a, n) = 1`).
         
         :return: A Z object representing the order.
         :raises Exception: If the element is not a unit.
@@ -295,14 +308,22 @@ class Z_n:
         return Z(k)
 
     def inverse(self) -> Self:
-        """
+        r"""
         Compute the multiplicative inverse of the element in ℤₙ.
 
+        **Mathematical Intuition:**
+        
+        For a unit :math:`a \in \mathbb{Z}_n` (with :math:`\gcd(a, n) = 1`), there exists an inverse :math:`a^{-1}` 
+        such that:
+        
+        .. math::
+            a \cdot a^{-1} \equiv 1 \pmod{n}.
+        
         **Preconditions:**
         
-        - The element must be a unit in ℤₙ (i.e., coprime with n).
+        - The element must be a unit.
         
-        :return: A Z_n object representing the multiplicative inverse.
+        :return: A Z_n object representing the inverse.
         :raises Exception: If the element is not invertible.
         """
         if not PrimalityTesting.coprime(int(self.z), int(self.n)):
@@ -310,28 +331,32 @@ class Z_n:
         return Z_n(PrimalityTesting.extended_euclidean(int(self.z), int(self.n))[0], self.n)
 
 def Z_mod_(n: int) -> Callable[[int], Z_n]:
-    """
+    r"""
     Returns a specialized constructor for the ring ℤₙ (integers modulo n).
 
-    Depending on whether n is prime or composite, this function returns a subclass of Z_n with 
-    additional class methods to list elements, units, compute orders, and (when applicable) determine 
-    properties like cyclicity and primitive roots.
-
-    NOTE: Read the source code for class methods the constructor provides. Sphinx does not document those.
-
-    **Preconditions:**
-    
-    - n must be a positive integer (n ∈ ℕ and n > 0).
-    - n = 0 is not allowed.
-    
     **Mathematical Intuition:**
     
-    - For composite moduli, ℤₙ may have a more complicated structure with non-trivial units.
-    - For prime moduli, ℤₙ is a field where every nonzero element is invertible.
-    - This function encapsulates the differences by returning an appropriate subclass of Z_n.
+    ℤₙ consists of residue classes:
+    
+    .. math::
+        \mathbb{Z}_n = \{0, 1, \dots, n-1\},
+    
+    with operations defined modulo n. For prime n, ℤₙ is a field; for composite n, the unit group 
+    (the set of invertible elements) is given by:
+    
+    .. math::
+        U(n) = \{ a \in \mathbb{Z}_n : \gcd(a, n) = 1 \}.
+    
+    This function returns a subclass of Z_n that encapsulates additional properties (e.g., cyclicity, primitive roots)
+    depending on whether n is prime or composite.
+    
+    **Preconditions:**
+    
+    - n must be a positive integer (n ∈ ℕ, n > 0).
+    - n = 0 is not allowed.
     
     :param n: A positive integer representing the modulus.
-    :return: A callable (class) that constructs elements in ℤₙ with the given modulus.
+    :return: A callable (class) for constructing elements of ℤₙ with the given modulus.
     :raises Exception: If n is not a positive integer or if n equals 0.
     """
     if not isinstance(n, int) or n < 1:
@@ -339,47 +364,54 @@ def Z_mod_(n: int) -> Callable[[int], Z_n]:
 
     if n == 0:
         raise Exception("n = 0")
-
-    if not PrimalityTesting.eratosthenes_primality(n):
-        class Z_(Z_n):
-            modulus = Z(n)
     
-            def __init__(self, z):
-                super().__init__(z, self.modulus)
-    
-            @classmethod
-            def elements(cls) -> list[Self]:
-                return [cls(k) for k in range(int(cls.modulus))]
+    class Z_(Z_n):
+        """
+        NOTE: This is the subclass constructed by function Z_mod_().
+        """
+        modulus = Z(n)
 
-            @classmethod
-            def units(cls) -> list[Self]:
-                return [cls(k) for k in range(1, int(cls.modulus)) if PrimalityTesting.coprime(k, int(cls.modulus))]
+        def __init__(self, z):
+            super().__init__(z, self.modulus)
 
-            @classmethod
-            def zero(cls) -> Self:
-                return cls(0)
-    
-            @classmethod
-            def mul_id(cls) -> Self:
-                return cls(1)
+        @classmethod
+        def elements(cls) -> list[Self]:
+            return [cls(k) for k in range(int(cls.modulus))]
 
-            @classmethod
-            def total_order(cls) -> Z:
-                return cls.modulus
+        @classmethod
+        def units(cls) -> list[Self]:
+            return [cls(k) for k in range(1, int(cls.modulus)) if PrimalityTesting.coprime(k, int(cls.modulus))]
 
+        @classmethod
+        def zero(cls) -> Self:
+            return cls(0)
+
+        @classmethod
+        def mul_id(cls) -> Self:
+            return cls(1)
+
+        @classmethod
+        def total_order(cls) -> Z:
+            return cls.modulus
+
+        if not PrimalityTesting.eratosthenes_primality(n):
             @classmethod
             def unit_order(cls) -> Z:
                 return Z(ArithmeticFunctions.ϕ(int(cls.modulus)))
 
             @classmethod
             def is_cyclic(cls) -> bool:
-                """
-                Determines whether ℤₙ is cyclic, i.e., whether it has a generator for its multiplicative group of units.
+                r"""
+                Determines whether ℤₙ is cyclic, i.e., whether its unit group is cyclic.
 
                 **Mathematical Intuition:**
                 
-                - A group is cyclic if there exists an element (called a generator) such that every element of the group can be written as a power of this generator.
-                - For ℤₙ, this property depends on the structure of the modulus n.
+                A group G is cyclic if there exists a generator :math:`g` such that:
+                
+                .. math::
+                    G = \{ g^k : k \in \mathbb{Z} \}.
+                
+                For ℤₙ, the cyclicity of the unit group depends on the prime factorization of n.
                 
                 **Preconditions:**
                 
@@ -398,13 +430,17 @@ def Z_mod_(n: int) -> Callable[[int], Z_n]:
 
             @classmethod
             def primitive_roots(cls) -> Self:
-                """
+                r"""
                 Finds the primitive roots of ℤₙ, if they exist.
-
+                
                 **Mathematical Intuition:**
                 
-                - A primitive root modulo n is an element of ℤₙ that generates all other units in ℤₙ under multiplication.
-                - If ℤₙ is cyclic, the primitive roots are the elements that can produce all other units by exponentiation.
+                A primitive root modulo n is an element :math:`g \in U(n)` such that:
+                
+                .. math::
+                    U(n) = \{ g^k : 0 \leq k < \varphi(n) \}.
+                
+                This function returns the list of all such generators when ℤₙ is cyclic.
                 
                 **Preconditions:**
                 
@@ -420,33 +456,7 @@ def Z_mod_(n: int) -> Callable[[int], Z_n]:
                 factors = Factorization.prime_factors(int(phi))
                 return [g for g in cls.units() if all(pow(int(g.z), int(phi) // q, int(cls.modulus)) != 1 for q in factors)]
 
-    else:
-        class Z_(Z_n):
-            modulus = Z(n)
-    
-            def __init__(self, z):
-                super().__init__(z, self.modulus)
-    
-            @classmethod
-            def elements(cls) -> list[Self]:
-                return [cls(k) for k in range(int(cls.modulus))]
-
-            @classmethod
-            def units(cls) -> list[Self]:
-                return cls.elements()[1:]
-
-            @classmethod
-            def zero(cls) -> Self:
-                return cls(0)
-    
-            @classmethod
-            def mul_id(cls) -> Self:
-                return cls(1)
-
-            @classmethod
-            def total_order(cls) -> Z:
-                return cls.modulus
-
+        else:
             @classmethod
             def unit_order(cls) -> Z:
                 return cls.modulus - Z(1)
@@ -463,22 +473,27 @@ def Z_mod_(n: int) -> Callable[[int], Z_n]:
 
             @classmethod
             def legendre(cls, z: Self) -> Z:
-                """
-                Computes the Legendre symbol (a / p), which indicates whether a is a quadratic residue modulo p.
-
+                r"""
+                Computes the Legendre symbol :math:`\left(\frac{a}{p}\right)` for a in ℤ, where p is an odd prime.
+                
                 **Mathematical Intuition:**
                 
-                - The Legendre symbol is used to determine whether a number has a square root modulo p (for an odd prime p).
-                - It returns 1 if a is a quadratic residue modulo p, -1 if it is a non-residue, and 0 if a is divisible by p.
+                For an odd prime :math:`p`, the Legendre symbol is defined by:
+                
+                .. math::
+                    \left(\frac{a}{p}\right) = \begin{cases}
+                    0, & \text{if } p \mid a, \\
+                    1, & \text{if } a \text{ is a quadratic residue modulo } p, \\
+                    -1, & \text{if } a \text{ is a non-residue modulo } p.
+                    \end{cases}
                 
                 **Preconditions:**
                 
-                - p must be a prime number.
+                - p (here, the modulus) must be an odd prime.
                 
-                :param a: An integer a in ℤ.
-                :param p: A Z object representing an odd prime modulus.
-                :return: 1 if a is a quadratic residue modulo p, -1 if it is a non-residue, 0 if a is divisible by p.
-                :raises Exception: If p is not an odd prime.
+                :param z: An element of ℤₙ.
+                :return: The Legendre symbol as a Z object.
+                :raises Exception: If the modulus is 2.
                 """
                 if int(cls.modulus) == 2:
                     raise Exception("legendre symbol not defined for p=2")
@@ -490,4 +505,10 @@ def Z_mod_(n: int) -> Callable[[int], Z_n]:
                     raise Exception("unsupported operation")
                 return self * b.inverse()
 
+    Z_.__module__ = __name__
+    if 'sphinx' in sys.modules:
+        globals()[f'Z_'] = Z_
+
     return Z_
+
+Z__ = Z_mod_(2)

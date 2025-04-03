@@ -7,8 +7,6 @@ discrete_env/
 .hypothesis/
 
 docs/build/
-docs/source/_static/
-docs/source/_templates/
 
 complexity/reports/
 notebooks/
@@ -19,7 +17,6 @@ notebooks/
 .DS_Store
 
 tree.txt
-src/QuadraticStructures.py
 
 *.egg-info/
 .env

@@ -2,50 +2,12 @@ import os
 import time
 import matplotlib.pyplot as plt
 import sys
-from Analyze import analyze_complexity
-
-def safe_data_gen(data_gen, force_int=False):
-    def wrapper(n):
-        value = data_gen(n)
-        if force_int:
-            try:
-                return int(value)
-            except Exception:
-                return value
-        return value
-    return wrapper
-
-def save_plot(ns, times, title, filename):
-    plt.figure(figsize=(8, 5))
-    plt.plot(ns, times, 'bo-', label='Measured Time')
-    plt.xlabel("Input Size (n)")
-    plt.ylabel("Execution Time (sec)")
-    plt.title(title)
-    plt.legend()
-    plt.grid(True)
-    plt.savefig(filename)
-    plt.close()
-
-def generate_report(target_name, best_fit, all_fits, plot_filename):
-    md = []
-    md.append(f"## Complexity Analysis for `{target_name}`\n\n")
-    md.append("**Best Fit Complexity:**\n")
-    md.append(f"`{best_fit}`\n\n")
-    md.append("**Detailed Fit Residuals:**\n")
-    md.append("| Complexity Class      | Residual |\n")
-    md.append("|-----------------------|----------|\n")
-    for comp, res in all_fits.items():
-        md.append(f"| {str(comp):<21} | {res:.2G} |\n")
-    md.append("\n**Execution Time vs. Input Size Plot:**\n")
-    md.append(r"\begin{center}" + "\n")
-    md.append(f"\\includegraphics[width=0.8\\textwidth]{{{plot_filename}}}\n")
-    md.append(r"\end{center}" + "\n")
-    md.append("\n---\n")
-    return "".join(md)
+import subprocess
+from Analyze import analyze_complexity, safe_data_gen, save_plot, generate_report
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
-REPORTS_DIR = os.path.join(os.path.dirname(__file__), "reports")
+REPORTS_DIR = os.path.join(os.path.dirname(__file__), "reports/complexityDiscreteFunctions")
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
 # Define analysis targets.
@@ -56,9 +18,6 @@ os.makedirs(REPORTS_DIR, exist_ok=True)
 #   - 'min_n', 'max_n', 'step', 'cluster', 'n_repeats': analysis parameters,
 #   - 'force_int': if True, the generated value is cast to int.
 from DiscreteFunctions import PrimalityTesting, PrimeNumberTheorem, Factorization, ArithmeticFunctions
-from SingletonStructures import Z
-
-
 
 targets = [
     # --- PrimalityTesting methods ---
@@ -199,7 +158,7 @@ targets = [
     },
     {
         "name": "sigma_k",
-        "func": lambda n: ArithmeticFunctions.σ_k(n, 2),  # Using k=2 as a fixed parameter.
+        "func": lambda n: ArithmeticFunctions.σ_k(n, 2),
         "data_gen": lambda n: n,
         "min_n": 1000,
         "max_n": 200000,
@@ -297,60 +256,27 @@ targets = [
         "force_int": True
     },
     {
-        "name": "Z_is_perfect",
-        "func": Z.is_perfect,
-        "data_gen": lambda n: Z(int(n)),
-        "min_n": 10,
-        "max_n": 200000,
-        "step": 10,
-        "cluster": 100,
-        "n_repeats": 10,
-        "force_int": True
-    },
-    {
-        "name": "Z_is_square_free",
-        "func": Z.is_square_free,
-        "data_gen": lambda n: Z(int(n)),
-        "min_n": 10,
-        "max_n": 200000,
-        "step": 10,
-        "cluster": 100,
-        "n_repeats": 10,
-        "force_int": True
-    },
-    {
-        "name": "Z_n_order",
-        "func": lambda z: z.order(),
-        "data_gen": lambda n: __import__('SingletonStructures').Z_n(int(n), 101),
-        "min_n": 1,
-        "max_n": 100,
-        "step": 1,
-        "cluster": 1,
-        "n_repeats": 10,
-        "force_int": False
-    },
-    {
-        "name": "Z_n_inverse",
-        "func": lambda z: z.inverse(),
-        "data_gen": lambda n: __import__('SingletonStructures').Z_n(int(n), 101),
-        "min_n": 1,
-        "max_n": 100,
-        "step": 1,
-        "cluster": 1,
-        "n_repeats": 10,
-        "force_int": False
-    },
-    {
-        "name": "Z_n_legendre",
-        "func": lambda x: __import__('SingletonStructures').Z_mod_(125371).legendre(__import__('SingletonStructures').Z(int(x))),
+        "name": "is_perfect",
+        "func": ArithmeticFunctions.is_perfect,
         "data_gen": lambda n: n,
-        "min_n": 1,
-        "max_n": 125370,
-        "step": 1,
-        "cluster": 1,
+        "min_n": 10,
+        "max_n": 200000,
+        "step": 10,
+        "cluster": 100,
         "n_repeats": 10,
         "force_int": True
     },
+    {
+        "name": "is_square_free",
+        "func": ArithmeticFunctions.is_square_free,
+        "data_gen": lambda n: n,
+        "min_n": 10,
+        "max_n": 200000,
+        "step": 10,
+        "cluster": 100,
+        "n_repeats": 10,
+        "force_int": True
+    }
 ]
 
 all_reports = []
@@ -387,12 +313,22 @@ header = """---
 header-includes:
   - \\usepackage{graphicx}
   - \\usepackage{float}
+  - \\graphicspath{{reports/complexityDiscreteFunctions/}}
 ---
 """
 
-aggregated_report = header + "\n" + "# Complexity Analysis Report\n\n" + "\n".join(all_reports)
-report_filepath = os.path.join(REPORTS_DIR, "complexity_report.md")
+aggregated_report = header + "\n" + "# Discrete Functions Complexity Analysis Report\n\n" + "\n".join(all_reports)
+report_filepath = os.path.join(REPORTS_DIR, "discrete_functions_complexity_report.md")
 with open(report_filepath, "w") as f:
     f.write(aggregated_report)
 
 print(f"Aggregated complexity report saved to: {report_filepath}")
+
+pdf_output = os.path.join(os.path.dirname(__file__), "discrete_functions_complexity_report.pdf")
+
+subprocess.run([
+    "pandoc", report_filepath, "-o", pdf_output,
+    "--pdf-engine=tectonic"
+], check=True)
+
+print(f"PDF report saved to: {pdf_output}")

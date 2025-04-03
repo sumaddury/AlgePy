@@ -3,48 +3,63 @@ import random
 import math
 
 class PrimalityTesting:
-    """
-    A collection of methods to test the primality of integers.
+    r"""
+    A collection of methods to test the primality of positive integers.
     
     **Preconditions:**
     
-    - All methods assume that input integers are positive (n > 0) unless noted otherwise.
-    - For functions using random sampling (Fermat and Miller–Rabin tests), n should be sufficiently large (typically n > 3)
-      to avoid errors in random range generation.
+    - All methods assume that input integers are positive (n > 0).
+    - For methods that use random sampling (Fermat and Miller–Rabin tests), it is assumed that n is sufficiently large (typically n > 3) to ensure a meaningful random base can be selected.
     """
 
     @staticmethod
     def coprime(a: int, b: int) -> bool:
-        """
-        Determine whether two integers are coprime (i.e., their greatest common divisor is 1).
-
+        r"""
+        Determine whether two integers are coprime, i.e., their greatest common divisor is 1.
+        
+        **Mathematical Intuition:**
+        
+        The integers a and b are coprime if:
+        
+        .. math::
+            \gcd(a, b) = 1.
+        
+        This function verifies that no prime factor (other than 1) divides both a and b.
+        
         **Preconditions:**
         
-        - `a` and `b` are integers (preferably non-negative).
+        - a and b are positive integers.
         
-        :param a: First integer.
-        :param b: Second integer.
-        :return: ``True`` if gcd(a, b) == 1, meaning a and b have no common factors other than 1;
-                 ``False`` otherwise.
+        :param a: A positive integer.
+        :param b: A positive integer.
+        :return: True if a and b are coprime; False otherwise.
         """
         return math.gcd(a, b) == 1
 
     @staticmethod
     def extended_euclidean(a: int, b: int) -> tuple[int, int]:
-        """
-        Compute the coefficients (x, y) for the extended Euclidean algorithm.
+        r"""
+        Compute the coefficients (x, y) that satisfy Bezout's identity:
         
-        This finds integers x and y such that:
+        .. math::
+            a \cdot x + b \cdot y = \gcd(a, b).
         
-        .. math:: a \\cdot x + b \\cdot y = \\gcd(a,b)
+        **Mathematical Intuition:**
+        
+        This function returns integers x and y such that:
+        
+        .. math::
+            a x + b y = \gcd(a, b),
+        
+        which is fundamental in solving Diophantine equations and computing modular inverses.
         
         **Preconditions:**
         
-        - `a` and `b` are integers and not both zero.
+        - a and b are positive integers, not both zero.
         
-        :param a: First integer.
-        :param b: Second integer.
-        :return: A tuple (x, y) such that a*x + b*y equals the greatest common divisor of a and b.
+        :param a: A positive integer.
+        :param b: A positive integer.
+        :return: A tuple (x, y) satisfying the equation above.
         """
         x1, y1 = 1, 0
         x2, y2 = 0, 1
@@ -59,20 +74,24 @@ class PrimalityTesting:
 
     @staticmethod
     def eratosthenes_primality(n : int) -> bool:
-        """
-        Test if a number is prime using a simplified version of the Sieve of Eratosthenes.
-
+        r"""
+        Test if a number n is prime using a simple variant of the Sieve of Eratosthenes.
+        
         **Mathematical Intuition:**
         
-        - The algorithm checks divisibility up to the integer square root of n.
-        - It is efficient for moderate-sized inputs but assumes n is a positive integer greater than 1.
+        An integer n > 1 is prime if it is not divisible by any integer in the range:
+        
+        .. math::
+            2 \leq v \leq \sqrt{n}.
+        
+        This method checks divisibility only up to the integer square root of n.
         
         **Preconditions:**
         
-        - n must be an integer with n > 1.
+        - n is an integer greater than 1.
         
-        :param n: An integer greater than 1.
-        :return: ``True`` if n is prime; ``False`` otherwise.
+        :param n: An integer > 1.
+        :return: True if n is prime; False otherwise.
         """
         if n % 2 == 0:
             return n == 2
@@ -83,24 +102,25 @@ class PrimalityTesting:
 
     @staticmethod
     def fermat_primality(n: int) -> bool:
-        """
-        Test if a number is prime using Fermat's little theorem.
-
+        r"""
+        Probabilistically test if a number is prime using Fermat's little theorem.
+        
         **Mathematical Intuition:**
         
-        - Fermat's little theorem states that for a prime number p and any integer a (1 < a < p),
-          :math:`a^{p-1} \\equiv 1 \\pmod{p}`.
-        - This method is probabilistic: if the test fails, n is composite; if it passes, n is likely prime
-          but may be a Fermat pseudoprime.
-          
+        Fermat's little theorem states that if n is prime and a is an integer with 1 < a < n, then:
+        
+        .. math::
+            a^{n-1} \equiv 1 \pmod{n}.
+        
+        If this congruence fails for some a, then n is composite.
+        
         **Preconditions:**
         
-        - n must be an integer with n > 3.
-        - The method assumes n is odd (or equals 2 or 3) because even numbers > 2 are composite.
-        - The random base a is chosen in the range [2, math.isqrt(n)]; thus, math.isqrt(n) must be at least 2.
+        - n is an integer greater than 3 (with 2 and 3 handled explicitly).
+        - n is odd (as even numbers > 2 are composite).
         
-        :param n: An integer greater than 3 (or 2 or 3, which are handled explicitly).
-        :return: ``True`` if n passes Fermat's test; ``False`` if n fails the test.
+        :param n: An integer greater than 3.
+        :return: True if n passes Fermat's test (and is likely prime); False if n fails the test.
         """
         if n == 2 or n == 3:
             return True
@@ -111,23 +131,32 @@ class PrimalityTesting:
 
     @staticmethod
     def miller_rabin_primality(n: int) -> bool:
-        """
-        Test if a number is prime using the Miller–Rabin probabilistic primality test.
-
+        r"""
+        Test if a number is prime using the Miller–Rabin probabilistic test.
+        
         **Mathematical Intuition:**
         
-        - This algorithm decomposes n-1 into 2^s * d and then uses a randomly chosen base a to test for strong 
-          witnesses to compositeness.
-        - It is more robust than Fermat's test but still probabilistic.
-          
+        Write n - 1 as:
+        
+        .. math::
+            n - 1 = 2^s \cdot d,
+        
+        with d odd. Then for a random base a (2 ≤ a ≤ n − 2), compute:
+        
+        .. math::
+            x = a^d \mod n.
+        
+        n is composite if:
+        
+        .. math::
+            x \not\in \{1, n-1\} \quad \text{and} \quad x^{2^r} \not\equiv n-1 \, (\forall\, 0 \leq r < s).
+        
         **Preconditions:**
         
-        - n must be an integer with n > 3.
-        - The algorithm assumes n is odd (or equals 2 or 3, which are handled explicitly).
-        - For n > 3, a random base a is chosen from [2, n-2], so n must be at least 4.
+        - n is an odd integer greater than 3 (with 2 and 3 handled explicitly).
         
-        :param n: An odd integer greater than 3 (or 2 or 3, handled explicitly).
-        :return: ``True`` if n passes the Miller–Rabin test (likely prime); ``False`` if n fails (composite).
+        :param n: An odd integer > 3.
+        :return: True if n passes the Miller–Rabin test (likely prime); False if n fails (composite).
         """
         if n == 2 or n == 3:
             return True
@@ -140,36 +169,34 @@ class PrimalityTesting:
         return True
 
 class PrimeNumberTheorem:
-    """
-    Provides functions related to the prime number theorem (PNT) and approximations of prime counts.
-
-    Several methods are provided for:
+    r"""
+    Provides functions related to the prime number theorem (PNT) and approximations for the count of primes.
     
-    - Counting primes exactly using a basic probabilistic test.
-    - Estimating the probability that a given number is prime.
-    - Summing these probabilities to estimate the total number of primes.
-    - Approximating the prime count via integration-based formulas.
+    **Preconditions:**
     
-    **Note:** The functions using Fermat's test may overcount primes due to pseudoprimes.
+    - Input values are positive integers (typically x > 1).
     """
 
     @staticmethod
     def π(x: int) -> int:
-        """
-        Count the number of primes less than or equal to x using a basic Fermat test.
+        r"""
+        Count the number of primes less than or equal to x.
         
         **Mathematical Intuition:**
         
-        - This function iterates through all integers from 2 to x,
-          testing each for primality with Fermat's test.
-        - This is a rudimentary approach and may misidentify some composite numbers as primes.
+        This function estimates:
+        
+        .. math::
+            \pi(x) = \#\{ p \leq x \mid p \text{ is prime} \},
+        
+        by testing each integer n (2 ≤ n ≤ x) for primality.
         
         **Preconditions:**
         
-        - x must be an integer greater than or equal to 2.
+        - x is an integer ≥ 2.
         
-        :param x: An integer, the upper bound for counting primes.
-        :return: The count of numbers (from 2 to x) that pass Fermat's primality test.
+        :param x: A positive integer (x ≥ 2).
+        :return: The count of primes ≤ x.
         """
         count = 0
         for n in range(2, x+1):
@@ -179,21 +206,24 @@ class PrimeNumberTheorem:
 
     @staticmethod
     def prob(n: int) -> float:
-        """
-        Compute the probability that a number n is prime based on a product formula.
+        r"""
+        Compute a heuristic probability that an integer n is prime.
         
         **Mathematical Intuition:**
         
-        - Uses the heuristic that the probability of a number being prime is
-          roughly the product of factors (f-1)/f over primes f up to √n.
-        - This is not an exact probability but provides a heuristic estimate.
+        It uses a product over primes up to √n:
+        
+        .. math::
+            P(n) \approx \prod_{f \leq \sqrt{n}} \frac{f-1}{f},
+        
+        which estimates the density of primes.
         
         **Preconditions:**
         
-        - n must be an integer greater than or equal to 2.
+        - n is an integer ≥ 2.
         
-        :param n: An integer to evaluate.
-        :return: A floating-point number representing the heuristic probability that n is prime.
+        :param n: A positive integer.
+        :return: A floating-point estimate of the probability that n is prime.
         """
         bound = math.floor(n ** 0.5)
         F = [((f-1)/f) for f in range(2, bound+1) if PrimalityTesting.fermat_primality(f)]
@@ -201,20 +231,22 @@ class PrimeNumberTheorem:
 
     @staticmethod
     def pnt_prime_count(x: int) -> float:
-        """
-        Estimate the number of primes up to x using the prime number theorem (PNT) via summation.
+        r"""
+        Estimate the number of primes up to x via summation.
         
         **Mathematical Intuition:**
         
-        - The PNT implies that the density of primes near x is roughly 1/ln(x).
-        - This function sums 1/ln(n) for n from 2 to x as a discrete approximation.
+        The prime number theorem suggests the prime density near n is ~1/ln(n), so:
+        
+        .. math::
+            \pi(x) \approx \sum_{n=2}^{x} \frac{1}{\ln(n)}.
         
         **Preconditions:**
         
-        - x must be an integer greater than 1.
+        - x is an integer > 1.
         
-        :param x: An integer, the upper bound for the approximation.
-        :return: A floating-point value representing the approximate number of primes ≤ x.
+        :param x: A positive integer > 1.
+        :return: A floating-point estimate of the number of primes ≤ x.
         """
         acc = 0
         for n in range(2, x+1):
@@ -223,87 +255,105 @@ class PrimeNumberTheorem:
 
     @staticmethod
     def approx_pnt_prime_count(x: int) -> float:
-        """
-        Approximate the number of primes up to x using the standard PNT formula.
+        r"""
+        Approximate the number of primes up to x using the continuous form of the prime number theorem.
         
         **Mathematical Intuition:**
         
-        - The prime number theorem approximates the number of primes ≤ x by x / ln(x).
-        - This is a continuous (integral) approximation.
+        The prime number theorem states:
+        
+        .. math::
+            \pi(x) \sim \frac{x}{\ln(x)},
+        
+        so this function returns:
+        
+        .. math::
+            \frac{x}{\ln(x)}.
         
         **Preconditions:**
         
-        - x must be an integer greater than 1.
+        - x is an integer > 1.
         
-        :param x: An integer, the upper bound for the approximation.
-        :return: The approximate number of primes ≤ x as given by x/ln(x).
+        :param x: A positive integer > 1.
+        :return: A floating-point approximation of the number of primes ≤ x.
         """
         return x / math.log(x)
 
 class Factorization:
-    """
-    Provides methods for computing the divisors and prime factorization of an integer.
+    r"""
+    Provides methods for computing the divisors and prime factorization of a positive integer.
     
     **Preconditions:**
     
-    - All methods assume n is a positive integer (n ≥ 1).
+    - All functions assume that n is a positive integer (n ≥ 1).
     """
     @staticmethod
     def divisors(n: int) -> list[int]:
-        """
-        Compute all divisors of a given number n.
+        r"""
+        Compute all positive divisors of n.
         
         **Mathematical Intuition:**
         
-        - The method computes divisors up to the square root of n, then adds their complementary divisors.
-        - The returned list is not guaranteed to be fully sorted.
+        Divisors of n are numbers d such that:
+        
+        .. math::
+            d \mid n.
+        
+        This function finds all such d by testing up to :math:`\sqrt{n}` and including their complementary divisors.
         
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
+        - n is an integer with n ≥ 1.
         
         :param n: A positive integer.
-        :return: A list of integers representing all divisors of n.
+        :return: A list of positive divisors of n.
         """
         res = [a for a in range(1, math.isqrt(n)+1) if n % a ==  0]
         return res + [n // f for f in res[::-1] if f * f != n]
 
     @staticmethod
     def prime_factors(n: int) -> list[int]:
-        """
-        Determine the prime factors of a given number n.
+        r"""
+        Determine the distinct prime factors of n.
         
         **Mathematical Intuition:**
         
-        - It computes all divisors (excluding 1) and then filters those that are prime using the
-          Sieve of Eratosthenes method.
-        - This method may not list repeated factors.
+        A prime factor p of n satisfies:
+        
+        .. math::
+            p \mid n \quad \text{and} \quad p \text{ is prime}.
+        
+        This function returns each prime factor once.
         
         **Preconditions:**
         
-        - n must be a positive integer greater than 1.
+        - n is an integer greater than 1.
         
-        :param n: A positive integer greater than 1.
-        :return: A list of prime numbers that are factors of n.
+        :param n: A positive integer > 1.
+        :return: A list of prime numbers dividing n.
         """
         return [a for a in Factorization.divisors(n)[1:] if PrimalityTesting.eratosthenes_primality(a)]
 
     @staticmethod
     def factorize(n: int) -> list[tuple[int, int]]:
-        """
-        Factorize n into its prime factors and corresponding exponents.
+        r"""
+        Factorize n into its prime factors with exponents.
         
         **Mathematical Intuition:**
         
-        - For each prime factor, determine the highest exponent such that the prime power divides n.
-        - Returns a list of tuples (prime, exponent).
+        For a positive integer n > 1, there exist primes :math:`p_1, p_2, \dots, p_k` and exponents :math:`e_1, e_2, \dots, e_k` such that:
+        
+        .. math::
+            n = p_1^{e_1} \cdots p_k^{e_k}.
+        
+        This function returns a list of tuples :math:`(p_i, e_i)`.
         
         **Preconditions:**
         
-        - n must be a positive integer greater than 1.
+        - n is an integer > 1.
         
-        :param n: A positive integer greater than 1.
-        :return: A list of tuples where each tuple consists of a prime factor of n and its exponent.
+        :param n: A positive integer > 1.
+        :return: A list of tuples, where each tuple is (prime, exponent).
         """
         def helper(n,a):
             exp = 0
@@ -314,9 +364,9 @@ class Factorization:
         return [(f, helper(n, f)) for f in Factorization.prime_factors(n)]
 
 class ArithmeticFunctions:
-    """
+    r"""
     Implements several arithmetic functions from number theory, including divisor functions and
-    multiplicative functions such as Euler's totient function, Liouville's, and Möbius functions.
+    multiplicative functions such as Euler's totient function, Liouville's function, and the Möbius function.
     
     **Preconditions:**
     
@@ -325,78 +375,84 @@ class ArithmeticFunctions:
 
     @staticmethod
     def σ(n: int) -> int:
-        """
+        r"""
         Compute the sum-of-divisors function σ(n).
-
+        
         **Mathematical Intuition:**
         
-        - σ(n) is defined as the sum of all positive divisors of n.
+        The function is defined by:
+        
+        .. math::
+            \sigma(n) = \sum_{d \mid n} d,
+        
+        where the sum runs over all positive divisors d of n.
         
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
+        - n is an integer with n ≥ 1.
         
         :param n: A positive integer.
-        :return: The sum of all divisors of n.
+        :return: The sum of all positive divisors of n.
         """
         return sum(Factorization.divisors(n))
     
     @staticmethod
     def σ_k(n: int, k: int) -> int:
-        """
-        Compute the generalized divisor function, σₖ(n), which is the sum of the k-th powers of all divisors of n.
+        r"""
+        Compute the generalized divisor function σₖ(n), which sums the k-th powers of all divisors of n.
         
         **Mathematical Intuition:**
         
-        - The function σₖ(n) is defined as:
-          
-          .. math::
-              \\sigma_k(n) = \\sum_{d \\mid n} d^k,
-          
-          where the sum runs over all positive divisors d of n.
-        - This generalizes the standard sum-of-divisors function (σ(n)) which is the case when k = 1.
+        It is defined as:
+        
+        .. math::
+            \sigma_k(n) = \sum_{d \mid n} d^k.
+        
+        For k = 1, this reduces to the standard sum-of-divisors function.
         
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
-        - k must be an integer. (k can be zero, positive, or negative; note that for k < 0, divisors are raised to a negative power.)
+        - n is an integer with n ≥ 1.
+        - k is an integer.
         
-        :param n: A positive integer whose divisors are to be evaluated.
-        :param k: An integer exponent applied to each divisor.
-        :return: The sum of each divisor of n raised to the power of k.
+        :param n: A positive integer.
+        :param k: An integer exponent.
+        :return: The sum of each divisor of n raised to the power k.
         """
         return sum(d ** k for d in Factorization.divisors(n))
 
     @staticmethod
     def Τ(n: int) -> int:
-        """
-        Compute the divisor-counting function Τ(n).
-
+        r"""
+        Compute the divisor-counting function Τ(n), i.e., the total number of positive divisors of n.
+        
         **Mathematical Intuition:**
         
-        - Τ(n) returns the total number of positive divisors of n.
+        .. math::
+            T(n) = \#\{d \mid n\}.
         
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
+        - n is an integer with n ≥ 1.
         
         :param n: A positive integer.
-        :return: The count of divisors of n.
+        :return: The number of positive divisors of n.
         """
         return len(Factorization.divisors(n))
 
     @staticmethod
     def ω(n: int) -> int:
-        """
+        r"""
         Compute the number of distinct prime factors of n.
-
+        
         **Mathematical Intuition:**
         
-        - ω(n) counts each prime factor only once, regardless of multiplicity.
+        .. math::
+            \omega(n) = \#\{p \mid n : p \text{ is prime}\}.
         
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
+        - n is an integer with n ≥ 1.
         
         :param n: A positive integer.
         :return: The number of distinct prime factors of n.
@@ -405,54 +461,70 @@ class ArithmeticFunctions:
 
     @staticmethod
     def Ω(n: int) -> int:
-        """
-        Compute the total number of prime factors of n (with multiplicity).
-
+        r"""
+        Compute the total number of prime factors of n, counting multiplicities.
+        
         **Mathematical Intuition:**
         
-        - Ω(n) sums the exponents in the prime factorization of n.
+        If
+        
+        .. math::
+            n = \prod_{i=1}^{k} p_i^{e_i},
+        
+        then
+        
+        .. math::
+            \Omega(n) = \sum_{i=1}^{k} e_i.
         
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
+        - n is an integer with n ≥ 1.
         
         :param n: A positive integer.
-        :return: The total count of prime factors of n, counting repeated factors.
+        :return: The total number of prime factors of n (with multiplicity).
         """
         return sum([a[1] for a in Factorization.factorize(n)])
 
     @staticmethod
-    def ϕ(n: int):
-        """
-        Compute Euler's totient function ϕ(n), which counts the number of integers up to n that are coprime with n.
-
+    def ϕ(n: int) -> int:
+        r"""
+        Compute Euler's totient function ϕ(n), which counts the number of integers between 1 and n that are coprime to n.
+        
         **Mathematical Intuition:**
         
-        - ϕ(n) is calculated by multiplying n by the product of (1 - 1/p) for each distinct prime factor p.
-        - This formula is valid for n ≥ 1, with ϕ(1) defined as 1.
+        Euler's totient function is given by:
+        
+        .. math::
+            \varphi(n) = n \prod_{p \mid n} \left(1 - \frac{1}{p}\right),
+        
+        where the product is over all distinct prime factors of n.
         
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
+        - n is an integer with n ≥ 1.
         
         :param n: A positive integer.
         :return: The value of Euler's totient function ϕ(n).
         """
-        return int(n * math.prod([1-(1/p) for p in Factorization.prime_factors(n)]))
+        return round(n * math.prod([1-(1/p) for p in Factorization.prime_factors(n)]))
 
     @staticmethod
     def λ(n: int) -> int:
-        """
+        r"""
         Compute the Liouville function λ(n).
-
+        
         **Mathematical Intuition:**
         
-        - λ(n) is defined as (-1)^Ω(n), where Ω(n) is the total number of prime factors of n (with multiplicity).
-        - It gives insight into the parity of the total prime factor count.
+        The Liouville function is defined as:
+        
+        .. math::
+            \lambda(n) = (-1)^{\Omega(n)},
+        
+        where Ω(n) is the total number of prime factors of n (with multiplicity).
         
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
+        - n is an integer with n ≥ 1.
         
         :param n: A positive integer.
         :return: 1 if Ω(n) is even, -1 if Ω(n) is odd.
@@ -461,22 +533,26 @@ class ArithmeticFunctions:
 
     @staticmethod
     def μ(n: int) -> int:
-        """
+        r"""
         Compute the Möbius function μ(n).
-
+        
         **Mathematical Intuition:**
         
-        - μ(n) is defined as:
-          
-          - μ(n) = (-1)^ω(n) if n is square-free (i.e., no prime factor is repeated),
-          - μ(n) = 0 if n has a squared prime factor.
-          
+        The Möbius function is defined by:
+        
+        .. math::
+            \mu(n) =
+            \begin{cases}
+            (-1)^{\omega(n)} & \text{if } n \text{ is square-free,} \\
+            0 & \text{otherwise.}
+            \end{cases}
+        
         **Preconditions:**
         
-        - n must be a positive integer (n ≥ 1).
+        - n is an integer with n ≥ 1.
         
         :param n: A positive integer.
-        :return: The value of the Möbius function: either -1, 0, or 1.
+        :return: The Möbius function value: -1, 0, or 1.
         """
         if ArithmeticFunctions.ω(n) == ArithmeticFunctions.Ω(n):
             return (-1) ** ArithmeticFunctions.Ω(n)
@@ -485,19 +561,22 @@ class ArithmeticFunctions:
 
     @staticmethod
     def I(n: int) -> int:
-        """
-        The indicator function I(n), defined as 1 if n == 1 and 0 otherwise.
-
-        **Mathematical Intuition:**
+        r"""
+        The indicator function I(n), defined as:
         
-        - This function serves as the identity for Dirichlet convolution in multiplicative number theory.
+        .. math::
+            I(n) =
+            \begin{cases}
+            1 & \text{if } n = 1, \\
+            0 & \text{otherwise.}
+            \end{cases}
         
         **Preconditions:**
         
         - n is an integer.
         
         :param n: An integer.
-        :return: 1 if n equals 1; 0 otherwise.
+        :return: 1 if n == 1, 0 otherwise.
         """
         if n == 1:
             return 1
@@ -506,21 +585,73 @@ class ArithmeticFunctions:
 
     @staticmethod
     def N(n: int) -> int:
-        """
-        The identity function N(n) which returns n itself.
-
+        r"""
+        The identity function N(n), which returns n itself.
+        
         **Mathematical Intuition:**
         
-        - In many arithmetic convolutions, N(n) acts as the natural number identity.
+        .. math::
+            N(n) = n.
+        
+        This function acts as the natural number identity in various arithmetic convolutions.
         
         **Preconditions:**
         
         - n is an integer.
         
         :param n: An integer.
-        :return: The same integer n.
+        :return: n.
         """
         return n
+    
+    @staticmethod
+    def is_perfect(n: int) -> bool:
+        r"""
+        Determine whether n is a perfect number.
+        
+        **Mathematical Intuition:**
+        
+        A number n is perfect if:
+        
+        .. math::
+            \sigma(n) = 2n,
+        
+        where σ(n) is the sum-of-divisors function.
+        
+        **Preconditions:**
+        
+        - n is a positive integer.
+        
+        :param n: A positive integer.
+        :return: True if n is perfect; False otherwise.
+        """
+        return ArithmeticFunctions.σ(n) == 2 * n
 
-class ModularAlgebra:
-    pass
+    @staticmethod
+    def is_square_free(n: int) -> bool:
+        r"""
+        Check if n is square-free (i.e., no prime factor appears with exponent greater than 1).
+        
+        **Mathematical Intuition:**
+        
+        n is square-free if:
+        
+        .. math::
+            p^2 \nmid n \quad \text{for every prime } p.
+        
+        **Preconditions:**
+        
+        - n is a positive integer.
+        
+        :param n: A positive integer.
+        :return: True if n is square-free; False otherwise.
+        """
+        if n < 1:
+            return False
+        if n == 1:
+            return True
+
+        for p in range(2, math.isqrt(n)+1):
+            if PrimalityTesting.eratosthenes_primality(p) and n % (p*p) == 0:
+                return False
+        return True  
