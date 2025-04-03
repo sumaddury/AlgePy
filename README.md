@@ -45,7 +45,7 @@ Install AlgePy directly from GitHub:
 pip install git+https://github.com/sumaddury/AlgePy.git
 ```
 
-Or install directly from source
+Or install directly from source:
 
 ```bash
 git clone https://github.com/sumaddury/AlgePy.git
