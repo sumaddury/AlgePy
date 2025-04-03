@@ -12,6 +12,7 @@
     <script src="_static/documentation_options.js?v=959672f5"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="algepy" href="modules.html" />
@@ -38,17 +39,1550 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
 </section>
-<section id="algepy-discretefunctions-module">
-<h2>algepy.DiscreteFunctions module<a class="headerlink" href="#algepy-discretefunctions-module" title="Link to this heading">¶</a></h2>
+<section id="module-algepy.DiscreteFunctions">
+<span id="algepy-discretefunctions-module"></span><h2>algepy.DiscreteFunctions module<a class="headerlink" href="#module-algepy.DiscreteFunctions" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimalityTesting">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.DiscreteFunctions.</span></span><span class="sig-name descname"><span class="pre">PrimalityTesting</span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimalityTesting" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A collection of methods to test the primality of positive integers.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>All methods assume that input integers are positive (n &gt; 0).</p></li>
+<li><p>For methods that use random sampling (Fermat and Miller–Rabin tests), it is assumed that n is sufficiently large (typically n &gt; 3) to ensure a meaningful random base can be selected.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimalityTesting.coprime">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">coprime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimalityTesting.coprime" title="Link to this definition">¶</a></dt>
+<dd><p>Determine whether two integers are coprime, i.e., their greatest common divisor is 1.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The integers a and b are coprime if:</p>
+<div class="math notranslate nohighlight">
+\[\gcd(a, b) = 1.\]</div>
+<p>This function verifies that no prime factor (other than 1) divides both a and b.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>a and b are positive integers.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> -- A positive integer.</p></li>
+<li><p><strong>b</strong> -- A positive integer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if a and b are coprime; False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimalityTesting.extended_euclidean">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extended_euclidean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimalityTesting.extended_euclidean" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the coefficients (x, y) that satisfy Bezout's identity:</p>
+<div class="math notranslate nohighlight">
+\[a \cdot x + b \cdot y = \gcd(a, b).\]</div>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>This function returns integers x and y such that:</p>
+<div class="math notranslate nohighlight">
+\[a x + b y = \gcd(a, b),\]</div>
+<p>which is fundamental in solving Diophantine equations and computing modular inverses.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>a and b are positive integers, not both zero.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> -- A positive integer.</p></li>
+<li><p><strong>b</strong> -- A positive integer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple (x, y) satisfying the equation above.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimalityTesting.eratosthenes_primality">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">eratosthenes_primality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimalityTesting.eratosthenes_primality" title="Link to this definition">¶</a></dt>
+<dd><p>Test if a number n is prime using a simple variant of the Sieve of Eratosthenes.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>An integer n &gt; 1 is prime if it is not divisible by any integer in the range:</p>
+<div class="math notranslate nohighlight">
+\[2 \leq v \leq \sqrt{n}.\]</div>
+<p>This method checks divisibility only up to the integer square root of n.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer greater than 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- An integer &gt; 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if n is prime; False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimalityTesting.fermat_primality">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fermat_primality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimalityTesting.fermat_primality" title="Link to this definition">¶</a></dt>
+<dd><p>Probabilistically test if a number is prime using Fermat's little theorem.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>Fermat's little theorem states that if n is prime and a is an integer with 1 &lt; a &lt; n, then:</p>
+<div class="math notranslate nohighlight">
+\[a^{n-1} \equiv 1 \pmod{n}.\]</div>
+<p>If this congruence fails for some a, then n is composite.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer greater than 3 (with 2 and 3 handled explicitly).</p></li>
+<li><p>n is odd (as even numbers &gt; 2 are composite).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- An integer greater than 3.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if n passes Fermat's test (and is likely prime); False if n fails the test.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimalityTesting.miller_rabin_primality">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">miller_rabin_primality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimalityTesting.miller_rabin_primality" title="Link to this definition">¶</a></dt>
+<dd><p>Test if a number is prime using the Miller–Rabin probabilistic test.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>Write n - 1 as:</p>
+<div class="math notranslate nohighlight">
+\[n - 1 = 2^s \cdot d,\]</div>
+<p>with d odd. Then for a random base a (2 ≤ a ≤ n − 2), compute:</p>
+<div class="math notranslate nohighlight">
+\[x = a^d \mod n.\]</div>
+<p>n is composite if:</p>
+<div class="math notranslate nohighlight">
+\[x \not\in \{1, n-1\} \quad \text{and} \quad x^{2^r} \not\equiv n-1 \, (\forall\, 0 \leq r &lt; s).\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an odd integer greater than 3 (with 2 and 3 handled explicitly).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- An odd integer &gt; 3.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if n passes the Miller–Rabin test (likely prime); False if n fails (composite).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimeNumberTheorem">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.DiscreteFunctions.</span></span><span class="sig-name descname"><span class="pre">PrimeNumberTheorem</span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimeNumberTheorem" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides functions related to the prime number theorem (PNT) and approximations for the count of primes.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>Input values are positive integers (typically x &gt; 1).</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimeNumberTheorem.">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">π</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimeNumberTheorem." title="Link to this definition">¶</a></dt>
+<dd><p>Count the number of primes less than or equal to x.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>This function estimates:</p>
+<div class="math notranslate nohighlight">
+\[\pi(x) = \#\{ p \leq x \mid p \text{ is prime} \},\]</div>
+<p>by testing each integer n (2 ≤ n ≤ x) for primality.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>x is an integer ≥ 2.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> -- A positive integer (x ≥ 2).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The count of primes ≤ x.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimeNumberTheorem.prob">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimeNumberTheorem.prob" title="Link to this definition">¶</a></dt>
+<dd><p>Compute a heuristic probability that an integer n is prime.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>It uses a product over primes up to √n:</p>
+<div class="math notranslate nohighlight">
+\[P(n) \approx \prod_{f \leq \sqrt{n}} \frac{f-1}{f},\]</div>
+<p>which estimates the density of primes.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer ≥ 2.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A floating-point estimate of the probability that n is prime.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimeNumberTheorem.pnt_prime_count">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pnt_prime_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimeNumberTheorem.pnt_prime_count" title="Link to this definition">¶</a></dt>
+<dd><p>Estimate the number of primes up to x via summation.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The prime number theorem suggests the prime density near n is ~1/ln(n), so:</p>
+<div class="math notranslate nohighlight">
+\[\pi(x) \approx \sum_{n=2}^{x} \frac{1}{\ln(n)}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>x is an integer &gt; 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> -- A positive integer &gt; 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A floating-point estimate of the number of primes ≤ x.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.PrimeNumberTheorem.approx_pnt_prime_count">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">approx_pnt_prime_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.PrimeNumberTheorem.approx_pnt_prime_count" title="Link to this definition">¶</a></dt>
+<dd><p>Approximate the number of primes up to x using the continuous form of the prime number theorem.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The prime number theorem states:</p>
+<div class="math notranslate nohighlight">
+\[\pi(x) \sim \frac{x}{\ln(x)},\]</div>
+<p>so this function returns:</p>
+<div class="math notranslate nohighlight">
+\[\frac{x}{\ln(x)}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>x is an integer &gt; 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> -- A positive integer &gt; 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A floating-point approximation of the number of primes ≤ x.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.Factorization">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.DiscreteFunctions.</span></span><span class="sig-name descname"><span class="pre">Factorization</span></span><a class="headerlink" href="#algepy.DiscreteFunctions.Factorization" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Provides methods for computing the divisors and prime factorization of a positive integer.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>All functions assume that n is a positive integer (n ≥ 1).</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.Factorization.divisors">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">divisors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.Factorization.divisors" title="Link to this definition">¶</a></dt>
+<dd><p>Compute all positive divisors of n.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>Divisors of n are numbers d such that:</p>
+<div class="math notranslate nohighlight">
+\[d \mid n.\]</div>
+<p>This function finds all such d by testing up to <span class="math notranslate nohighlight">\(\sqrt{n}\)</span> and including their complementary divisors.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of positive divisors of n.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.Factorization.prime_factors">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prime_factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.Factorization.prime_factors" title="Link to this definition">¶</a></dt>
+<dd><p>Determine the distinct prime factors of n.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>A prime factor p of n satisfies:</p>
+<div class="math notranslate nohighlight">
+\[p \mid n \quad \text{and} \quad p \text{ is prime}.\]</div>
+<p>This function returns each prime factor once.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer greater than 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer &gt; 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of prime numbers dividing n.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.Factorization.factorize">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">factorize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.Factorization.factorize" title="Link to this definition">¶</a></dt>
+<dd><p>Factorize n into its prime factors with exponents.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For a positive integer n &gt; 1, there exist primes <span class="math notranslate nohighlight">\(p_1, p_2, \dots, p_k\)</span> and exponents <span class="math notranslate nohighlight">\(e_1, e_2, \dots, e_k\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[n = p_1^{e_1} \cdots p_k^{e_k}.\]</div>
+<p>This function returns a list of tuples <span class="math notranslate nohighlight">\((p_i, e_i)\)</span>.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer &gt; 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer &gt; 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples, where each tuple is (prime, exponent).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.ArithmeticFunctions">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.DiscreteFunctions.</span></span><span class="sig-name descname"><span class="pre">ArithmeticFunctions</span></span><a class="headerlink" href="#algepy.DiscreteFunctions.ArithmeticFunctions" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Implements several arithmetic functions from number theory, including divisor functions and
+multiplicative functions such as Euler's totient function, Liouville's function, and the Möbius function.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>The input n should be a positive integer (n ≥ 1).</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.ArithmeticFunctions.">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">σ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.ArithmeticFunctions." title="Link to this definition">¶</a></dt>
+<dd><p>Compute the sum-of-divisors function σ(n).</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The function is defined by:</p>
+<div class="math notranslate nohighlight">
+\[\sigma(n) = \sum_{d \mid n} d,\]</div>
+<p>where the sum runs over all positive divisors d of n.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The sum of all positive divisors of n.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.ArithmeticFunctions._k">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">σ_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.ArithmeticFunctions._k" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the generalized divisor function σₖ(n), which sums the k-th powers of all divisors of n.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>It is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\sigma_k(n) = \sum_{d \mid n} d^k.\]</div>
+<p>For k = 1, this reduces to the standard sum-of-divisors function.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+<li><p>k is an integer.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> -- A positive integer.</p></li>
+<li><p><strong>k</strong> -- An integer exponent.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The sum of each divisor of n raised to the power k.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Τ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the divisor-counting function Τ(n), i.e., the total number of positive divisors of n.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[T(n) = \#\{d \mid n\}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of positive divisors of n.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ω</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the number of distinct prime factors of n.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[\omega(n) = \#\{p \mid n : p \text{ is prime}\}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of distinct prime factors of n.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Ω</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the total number of prime factors of n, counting multiplicities.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>If</p>
+<div class="math notranslate nohighlight">
+\[n = \prod_{i=1}^{k} p_i^{e_i},\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[\Omega(n) = \sum_{i=1}^{k} e_i.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The total number of prime factors of n (with multiplicity).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">φ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
+<dd><p>Compute Euler's totient function ϕ(n), which counts the number of integers between 1 and n that are coprime to n.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>Euler's totient function is given by:</p>
+<div class="math notranslate nohighlight">
+\[\varphi(n) = n \prod_{p \mid n} \left(1 - \frac{1}{p}\right),\]</div>
+<p>where the product is over all distinct prime factors of n.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value of Euler's totient function ϕ(n).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">λ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#id4" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the Liouville function λ(n).</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The Liouville function is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\lambda(n) = (-1)^{\Omega(n)},\]</div>
+<p>where Ω(n) is the total number of prime factors of n (with multiplicity).</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if Ω(n) is even, -1 if Ω(n) is odd.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">μ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#id5" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the Möbius function μ(n).</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The Möbius function is defined by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mu(n) =
+\begin{cases}
+(-1)^{\omega(n)} &amp; \text{if } n \text{ is square-free,} \\
+0 &amp; \text{otherwise.}
+\end{cases}\end{split}\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer with n ≥ 1.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Möbius function value: -1, 0, or 1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.ArithmeticFunctions.I">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">I</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.ArithmeticFunctions.I" title="Link to this definition">¶</a></dt>
+<dd><p>The indicator function I(n), defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}I(n) =
+\begin{cases}
+1 &amp; \text{if } n = 1, \\
+0 &amp; \text{otherwise.}
+\end{cases}\end{split}\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- An integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>1 if n == 1, 0 otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.ArithmeticFunctions.N">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.ArithmeticFunctions.N" title="Link to this definition">¶</a></dt>
+<dd><p>The identity function N(n), which returns n itself.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[N(n) = n.\]</div>
+<p>This function acts as the natural number identity in various arithmetic convolutions.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is an integer.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- An integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ol class="loweralpha simple" start="14">
+<li></li>
+</ol>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.ArithmeticFunctions.is_perfect">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_perfect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.ArithmeticFunctions.is_perfect" title="Link to this definition">¶</a></dt>
+<dd><p>Determine whether n is a perfect number.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>A number n is perfect if:</p>
+<div class="math notranslate nohighlight">
+\[\sigma(n) = 2n,\]</div>
+<p>where σ(n) is the sum-of-divisors function.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is a positive integer.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if n is perfect; False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.DiscreteFunctions.ArithmeticFunctions.is_square_free">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_square_free</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algepy.DiscreteFunctions.ArithmeticFunctions.is_square_free" title="Link to this definition">¶</a></dt>
+<dd><p>Check if n is square-free (i.e., no prime factor appears with exponent greater than 1).</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>n is square-free if:</p>
+<div class="math notranslate nohighlight">
+\[p^2 \nmid n \quad \text{for every prime } p.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n is a positive integer.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if n is square-free; False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="algepy-quadraticstructures-module">
-<h2>algepy.QuadraticStructures module<a class="headerlink" href="#algepy-quadraticstructures-module" title="Link to this heading">¶</a></h2>
+<section id="module-algepy.QuadraticStructures">
+<span id="algepy-quadraticstructures-module"></span><h2>algepy.QuadraticStructures module<a class="headerlink" href="#module-algepy.QuadraticStructures" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.C">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.QuadraticStructures.</span></span><span class="sig-name descname"><span class="pre">C</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.QuadraticStructures.C" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A lightweight wrapper for Python's built-in complex numbers, used primarily for
+embedding purposes in normalization routines for imaginary quadratic integer rings.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>Elements are represented as:</p>
+<div class="math notranslate nohighlight">
+\[c = a + bi, \quad a, b \in \mathbb{R},\]</div>
+<p>and arithmetic is performed using the standard operations on complex numbers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.C.conjugate">
+<span class="sig-name descname"><span class="pre">conjugate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.C.conjugate" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the complex conjugate of the element.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For an element <span class="math notranslate nohighlight">\(c = a + bi\)</span>, the conjugate is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\overline{c} = a - bi.\]</div>
+<p>This operation is used in the computation of norms and is fundamental in
+normalizing elements of imaginary quadratic rings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.C.to_tuple">
+<span class="sig-name descname"><span class="pre">to_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.C.to_tuple" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.C.zero">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.C.zero" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the additive identity, <span class="math notranslate nohighlight">\(0 + 0i\)</span>, in the complex wrapper.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[0 \in \mathbb{C}, \quad \text{such that } z + 0 = z.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The zero element as a C object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.C.mul_id">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mul_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.C.mul_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the multiplicative identity, <span class="math notranslate nohighlight">\(1 + 0i\)</span>, in the complex wrapper.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[1 \in \mathbb{C}, \quad \text{such that } z \cdot 1 = z.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The identity element as a C object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.C.norm">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.R" title="algepy.SingletonStructures.R"><span class="pre">R</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.C.norm" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the norm of a complex number.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The norm is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\|c\| = \sqrt{a^2 + b^2} \quad \text{for } c = a+bi.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c</strong> -- A complex element.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The norm as an element of R.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Q">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.QuadraticStructures.</span></span><span class="sig-name descname"><span class="pre">Q</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.QuadraticStructures.Q" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an element of the quadratic rational field <span class="math notranslate nohighlight">\(\mathbb{Q}(\sqrt{d})\)</span> in standard form.</p>
+<p>An element is stored in reduced form as:</p>
+<div class="math notranslate nohighlight">
+\[q = \frac{n}{d}, \quad \text{with } \gcd(n,d)=1 \text{ and } d &gt; 0.\]</div>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>This representation ensures each element is uniquely determined by its numerator and denominator,
+analogous to a rational number.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Q.reciprocal">
+<span class="sig-name descname"><span class="pre">reciprocal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Q.reciprocal" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the multiplicative inverse of this rational element.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For a nonzero <span class="math notranslate nohighlight">\(\frac{n}{d}\)</span>, its reciprocal is:</p>
+<div class="math notranslate nohighlight">
+\[\left(\frac{n}{d}\right)^{-1} = \frac{d}{n}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\frac{n}{d} \neq 0\)</span>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Q.to_tuple">
+<span class="sig-name descname"><span class="pre">to_tuple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Q.to_tuple" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Q.zero">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Q.zero" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the additive identity <span class="math notranslate nohighlight">\(\frac{0}{1}\)</span> in this rational form.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[0 \in \mathbb{Q}, \quad \text{such that } q + 0 = q.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The zero element as a Q object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Q.mul_id">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mul_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Q.mul_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the multiplicative identity <span class="math notranslate nohighlight">\(\frac{1}{1}\)</span>.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[1 \in \mathbb{Q}, \quad \text{such that } q \cdot 1 = q.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The identity element as a Q object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Q.abs">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Q.abs" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadInt">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.QuadraticStructures.</span></span><span class="sig-name descname"><span class="pre">QuadInt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.QuadraticStructures.QuadInt" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an element of a quadratic integer ring (e.g. <span class="math notranslate nohighlight">\(\mathbb{Z}[\sqrt{d}]\)</span> or its half-integral variant).</p>
+<p>An element is represented as:</p>
+<div class="math notranslate nohighlight">
+\[a + b\omega,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\omega = \sqrt{d}\)</span> (or <span class="math notranslate nohighlight">\(\omega = \frac{1+\sqrt{d}}{2}\)</span> when <span class="math notranslate nohighlight">\(d \equiv 1 \mod 4\)</span>).</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>Quadratic integers form an integral domain, and when the ring is a UFD, every element factors uniquely
+(up to units). The operations (addition, multiplication, etc.) follow the usual algebraic rules.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadInt.conjugate">
+<span class="sig-name descname"><span class="pre">conjugate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadInt.conjugate" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the conjugate of the quadratic integer.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For an element</p>
+<div class="math notranslate nohighlight">
+\[a + b\sqrt{d},\]</div>
+<p>the conjugate is defined as:</p>
+<div class="math notranslate nohighlight">
+\[a - b\sqrt{d}.\]</div>
+<p>In the half-integral case (when <span class="math notranslate nohighlight">\(d \equiv 1 \mod 4\)</span>), the conjugation is adjusted accordingly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadInt.norm">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadInt.norm" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the norm of a quadratic integer.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For <span class="math notranslate nohighlight">\(z = a + b\sqrt{d}\)</span> (or its half-integral variant), the norm is given by:</p>
+<div class="math notranslate nohighlight">
+\[N(z) = z \cdot \overline{z} = a^2 - d\,b^2.\]</div>
+<p>The norm is an integer and is multiplicative.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadInt.trace">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadInt.trace" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the trace of a quadratic integer.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The trace is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{Tr}(z) = z + \overline{z} = 2a \quad \text{(for standard form)},\]</div>
+<p>and is an integer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadInt.inverse">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadInt.inverse" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the inverse of a quadratic integer, when it exists.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For a unit <span class="math notranslate nohighlight">\(z\)</span> (i.e., one with norm ±1), the inverse is given by:</p>
+<div class="math notranslate nohighlight">
+\[z^{-1} = \frac{\overline{z}}{N(z)}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(z\)</span> must be a unit (i.e., <span class="math notranslate nohighlight">\(|N(z)| = 1\)</span>).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The inverse of <span class="math notranslate nohighlight">\(z\)</span>.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> -- If <span class="math notranslate nohighlight">\(z\)</span> is not a unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadIntRing">
+<span class="sig-prename descclassname"><span class="pre">algepy.QuadraticStructures.</span></span><span class="sig-name descname"><span class="pre">QuadIntRing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_ufd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#algepy.QuadraticStructures.QuadInt" title="algepy.QuadraticStructures.QuadInt"><span class="pre">QuadInt</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadIntRing" title="Link to this definition">¶</a></dt>
+<dd><p>Constructs the quadratic integer ring with generator <span class="math notranslate nohighlight">\(\omega\)</span> determined by d.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<ul>
+<li><p>For a square-free integer <span class="math notranslate nohighlight">\(d \neq 0,1\)</span>, the quadratic integer ring is given by:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{Z}[\sqrt{d}] \quad \text{if } d \not\equiv 1 \pmod{4},\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{Z}\left[\frac{1+\sqrt{d}}{2}\right] \quad \text{if } d \equiv 1 \pmod{4}.\]</div>
+</li>
+<li><p>Additional operations (such as division in the Euclidean case, normalization, and factorization)
+are provided when the ring is known to be norm-Euclidean or a UFD.</p></li>
+</ul>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(d\)</span> must be a square-free integer with <span class="math notranslate nohighlight">\(d \not\in \{0,1\}\)</span>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> -- A square-free integer (not 0 or 1) representing the parameter of the quadratic field.</p></li>
+<li><p><strong>known_ufd</strong> -- Boolean flag indicating if the ring is known to be a UFD.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A callable class for constructing elements of the quadratic integer ring.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Exception</strong> -- If d is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.QuadraticStructures.</span></span><span class="sig-name descname"><span class="pre">Quad_Z_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#algepy.QuadraticStructures.QuadInt" title="algepy.QuadraticStructures.QuadInt"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuadInt</span></code></a></p>
+<p>NOTE: This is the subclass constructed by function QuadIntRing().</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.embed">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">embed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.R" title="algepy.SingletonStructures.R"><span class="pre">R</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.embed" title="Link to this definition">¶</a></dt>
+<dd><p>Embeds a quadratic integer into the real numbers.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For <span class="math notranslate nohighlight">\(z = a + b\sqrt{d}\)</span>, the embedding is:</p>
+<div class="math notranslate nohighlight">
+\[\sigma(z) = a + b\sqrt{d} \in \mathbb{R}.\]</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.epsilon">
+<span class="sig-name descname"><span class="pre">epsilon</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.epsilon" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.factorize">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">factorize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.factorize" title="Link to this definition">¶</a></dt>
+<dd><p>Factorizes a quadratic integer into irreducible factors (up to units).</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>In a UFD, every nonzero non-unit element can be written uniquely (up to units) as:</p>
+<div class="math notranslate nohighlight">
+\[z = \pi_1^{e_1} \pi_2^{e_2} \cdots \pi_k^{e_k}.\]</div>
+<p>This method computes such a factorization by using the norm to guide a trial division approach.
+It terminates because the norm is a positive integer that strictly decreases with each factor extraction.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(z\)</span> must be a nonzero element of the quadratic integer ring.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of tuples, each consisting of an irreducible factor and its exponent.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.fundamental_unit">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fundamental_unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.fundamental_unit" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the fundamental unit of the real quadratic ring.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For <span class="math notranslate nohighlight">\(\mathbb{Z}[\sqrt{d}]\)</span> (or its half-integral variant), the fundamental unit
+<span class="math notranslate nohighlight">\(\varepsilon\)</span> is the smallest unit <span class="math notranslate nohighlight">\(&gt; 1\)</span> (in absolute value) satisfying:</p>
+<div class="math notranslate nohighlight">
+\[\varepsilon = x + y\sqrt{d} \quad \text{with} \quad x^2 - d\,y^2 = \pm 1.\]</div>
+<p>The method uses a continued fraction approach.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(d &gt; 1\)</span> and square-free.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.gcd">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.gcd" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the greatest common divisor (gcd) of two quadratic integers via the Euclidean algorithm.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>In a Euclidean domain, for <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(z\)</span>, the gcd is computed as:</p>
+<div class="math notranslate nohighlight">
+\[\gcd(w, z) = \gcd(z, w \mod z),\]</div>
+<p>iterated until the remainder is zero.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(z\)</span> belong to the same ring.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.get_fundamental_unit">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_fundamental_unit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.get_fundamental_unit" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the fundamental unit of the ring.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The fundamental unit is the generator of the infinite part of the unit group in a real quadratic field.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.internal_div">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">internal_div</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.internal_div" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the floor division of two quadratic integers.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For norm-Euclidean domains, given <span class="math notranslate nohighlight">\(w\)</span> and a nonzero <span class="math notranslate nohighlight">\(z\)</span>, there exists a quotient <span class="math notranslate nohighlight">\(q\)</span>
+and remainder <span class="math notranslate nohighlight">\(r\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[w = zq + r \quad \text{with} \quad N(r) &lt; N(z).\]</div>
+<p>This method returns the quotient <span class="math notranslate nohighlight">\(q\)</span>.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(z\)</span> must be nonzero and belong to the same ring.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.internal_mod">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">internal_mod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.internal_mod" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.is_euclidean_domain">
+<span class="sig-name descname"><span class="pre">is_euclidean_domain</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.is_euclidean_domain" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.is_ufd">
+<span class="sig-name descname"><span class="pre">is_ufd</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.is_ufd" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.mul_id">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mul_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.mul_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the multiplicative identity <span class="math notranslate nohighlight">\(1\)</span> in the quadratic integer ring.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[1 + 0\omega,\]</div>
+<p>is the unique element satisfying <span class="math notranslate nohighlight">\(z \cdot 1 = z\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.normalize" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the canonical representative (via normalization) of the associate class.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For real quadratic rings, every element <span class="math notranslate nohighlight">\(z\)</span> has associates of the form
+<span class="math notranslate nohighlight">\(\varepsilon^n z\)</span> (with <span class="math notranslate nohighlight">\(\varepsilon\)</span> the fundamental unit). Normalization
+selects the unique representative <span class="math notranslate nohighlight">\(z_{\mathrm{can}}\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[1 \leq |\sigma(z_{\mathrm{can}})| &lt; |\sigma(\varepsilon)|.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(d &gt; 1\)</span>.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.omega">
+<span class="sig-name descname"><span class="pre">omega</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.omega" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.unit_power">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.unit_power" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Z_.zero">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Z_.zero" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the additive identity <span class="math notranslate nohighlight">\(0\)</span> in the quadratic integer ring.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<div class="math notranslate nohighlight">
+\[0 + 0\omega,\]</div>
+<p>is the unique element satisfying <span class="math notranslate nohighlight">\(z + 0 = z\)</span>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadRat">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.QuadraticStructures.</span></span><span class="sig-name descname"><span class="pre">QuadRat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.QuadraticStructures.QuadRat" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an element of a quadratic rational field <span class="math notranslate nohighlight">\(\mathbb{Q}(\sqrt{d})\)</span> in standard form.</p>
+<p>Each element is represented as:</p>
+<div class="math notranslate nohighlight">
+\[a + b\sqrt{d}, \quad a,b \in \mathbb{Q},\]</div>
+<p>where the representation is assumed to be in lowest terms.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>This class models the field <span class="math notranslate nohighlight">\(\mathbb{Q}(\sqrt{d})\)</span>, in which every nonzero element is invertible.
+Arithmetic operations follow the usual rules for addition, multiplication, and inversion in a field.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadRat.conjugate">
+<span class="sig-name descname"><span class="pre">conjugate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadRat.conjugate" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the conjugate of a quadratic rational element.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For an element <span class="math notranslate nohighlight">\(q = a + b\sqrt{d} \in \mathbb{Q}(\sqrt{d})\)</span>, the conjugate is:</p>
+<div class="math notranslate nohighlight">
+\[\overline{q} = a - b\sqrt{d}.\]</div>
+<p>This operation is essential for computing the norm and inversion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadRat.norm">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.QuadraticStructures.Q" title="algepy.QuadraticStructures.Q"><span class="pre">Q</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadRat.norm" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the norm of a quadratic rational element.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For <span class="math notranslate nohighlight">\(q = a + b\sqrt{d}\)</span>, the norm is given by:</p>
+<div class="math notranslate nohighlight">
+\[N(q) = (a+b\sqrt{d})(a-b\sqrt{d}) = a^2 - d\,b^2.\]</div>
+<p>The norm is a rational number.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadRat.trace">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadRat.trace" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the trace of a quadratic rational element.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The trace is defined by:</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{Tr}(q) = q + \overline{q} = 2a.\]</div>
+<p>It is an element of ℤ.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadRat.inverse">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadRat.inverse" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the inverse of a nonzero quadratic rational element.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>Given <span class="math notranslate nohighlight">\(q = a + b\sqrt{d}\)</span> with nonzero norm, its inverse is:</p>
+<div class="math notranslate nohighlight">
+\[q^{-1} = \frac{\overline{q}}{N(q)} = \frac{a-b\sqrt{d}}{a^2-d\,b^2}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(q\)</span> must be nonzero.</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.QuadRatField">
+<span class="sig-prename descclassname"><span class="pre">algepy.QuadraticStructures.</span></span><span class="sig-name descname"><span class="pre">QuadRatField</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#algepy.QuadraticStructures.Q" title="algepy.QuadraticStructures.Q"><span class="pre">Q</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#algepy.QuadraticStructures.Q" title="algepy.QuadraticStructures.Q"><span class="pre">Q</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#algepy.QuadraticStructures.QuadRat" title="algepy.QuadraticStructures.QuadRat"><span class="pre">QuadRat</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.QuadraticStructures.QuadRatField" title="Link to this definition">¶</a></dt>
+<dd><p>Constructs the quadratic rational field <span class="math notranslate nohighlight">\(\mathbb{Q}(\sqrt{d})\)</span> in standard form.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For a square-free integer <span class="math notranslate nohighlight">\(d \neq 0,1\)</span>, the field is:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{Q}(\sqrt{d}) = \{\, a + b\sqrt{d} : a, b \in \mathbb{Q} \,\}.\]</div>
+<p>The field is represented in standard form; all arithmetic operations follow the usual field properties.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(d\)</span> must be a nonzero square-free integer, and <span class="math notranslate nohighlight">\(d \neq 1\)</span>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> -- A square-free integer (not 0 or 1).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A callable class for constructing elements of <span class="math notranslate nohighlight">\(\mathbb{Q}(\sqrt{d})\)</span>.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Exception</strong> -- If d is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Q_">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.QuadraticStructures.</span></span><span class="sig-name descname"><span class="pre">Quad_Q_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Q_" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#algepy.QuadraticStructures.QuadRat" title="algepy.QuadraticStructures.QuadRat"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuadRat</span></code></a></p>
+<p>NOTE: This is the subclass constructed by function QuadRatField().</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Q_.discriminant">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discriminant</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Q_.discriminant" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the field discriminant of <span class="math notranslate nohighlight">\(\mathbb{Q}(\sqrt{d})\)</span>.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The field discriminant is given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Delta =
+\begin{cases}
+d, &amp; \text{if } d \equiv 1 \mod 4, \\
+4d, &amp; \text{otherwise.}
+\end{cases}\end{split}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The discriminant as a Z object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Q_.embed">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">embed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.R" title="algepy.SingletonStructures.R"><span class="pre">R</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Q_.embed" title="Link to this definition">¶</a></dt>
+<dd><p>Embeds an element <span class="math notranslate nohighlight">\(q = a+b\sqrt{d}\)</span> into <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The standard embedding is:</p>
+<div class="math notranslate nohighlight">
+\[\sigma(q) = a + b\sqrt{d}.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> -- An element of <span class="math notranslate nohighlight">\(\mathbb{Q}(\sqrt{d})\)</span>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The real number <span class="math notranslate nohighlight">\(\sigma(q)\)</span>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Q_.embed_prime">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">embed_prime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.R" title="algepy.SingletonStructures.R"><span class="pre">R</span></a></span></span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Q_.embed_prime" title="Link to this definition">¶</a></dt>
+<dd><p>Provides the second real embedding for <span class="math notranslate nohighlight">\(q = a+b\sqrt{d}\)</span> into <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The second embedding is:</p>
+<div class="math notranslate nohighlight">
+\[\sigma'(q) = a - b\sqrt{d}.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> -- An element of <span class="math notranslate nohighlight">\(\mathbb{Q}(\sqrt{d})\)</span>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The real number <span class="math notranslate nohighlight">\(\sigma'(q)\)</span>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Q_.integer_ring">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">integer_ring</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Q_.integer_ring" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algepy.QuadraticStructures.Quad_Q_.omega">
+<span class="sig-name descname"><span class="pre">omega</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#algepy.QuadraticStructures.Quad_Q_.omega" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="algepy-singletonstructures-module">
-<h2>algepy.SingletonStructures module<a class="headerlink" href="#algepy-singletonstructures-module" title="Link to this heading">¶</a></h2>
+<section id="module-algepy.SingletonStructures">
+<span id="algepy-singletonstructures-module"></span><h2>algepy.SingletonStructures module<a class="headerlink" href="#module-algepy.SingletonStructures" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.SingletonStructures.</span></span><span class="sig-name descname"><span class="pre">Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.SingletonStructures.Z" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an element of the ring of integers, ℤ.</p>
+<p>This class wraps a Python integer and implements standard arithmetic operations
+(addition, multiplication, subtraction, etc.) consistent with the algebraic structure of ℤ.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>The input`z` must be a Python integer.</p></li>
+</ul>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The set ℤ is closed under addition, subtraction, and multiplication. In particular, for any
+integers <span class="math notranslate nohighlight">\(a, b \in \mathbb{Z}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[a + b \in \mathbb{Z}, \quad a - b \in \mathbb{Z}, \quad a \cdot b \in \mathbb{Z}.\]</div>
+<p>This class provides operator overloading so that arithmetic in ℤ can be performed using natural syntax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>z</strong> -- An integer representing the element in ℤ.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> -- If`z` is not an integer.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z.zero">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z.zero" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the additive identity (0) in ℤ.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The identity element <span class="math notranslate nohighlight">\(0 \in \mathbb{Z}\)</span> satisfies:</p>
+<div class="math notranslate nohighlight">
+\[a + 0 = a \quad \forall a \in \mathbb{Z}.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The integer 0 wrapped as a Z object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z.mul_id">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mul_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z.mul_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the multiplicative identity (1) in ℤ.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The identity element <span class="math notranslate nohighlight">\(1 \in \mathbb{Z}\)</span> satisfies:</p>
+<div class="math notranslate nohighlight">
+\[a \cdot 1 = a \quad \forall a \in \mathbb{Z}.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The integer 1 wrapped as a Z object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z.abs">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z.abs" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the absolute value of the integer element.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>The absolute value function is defined by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}|a| = \begin{cases} a, &amp; a \ge 0 \\ -a, &amp; a &lt; 0 \end{cases}.\end{split}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>z</strong> -- A Z object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new Z object with the absolute value of z.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.R">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.SingletonStructures.</span></span><span class="sig-name descname"><span class="pre">R</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.SingletonStructures.R" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an element of the field of real numbers, ℝ.</p>
+<p>This class wraps a real number (float or int) and defines standard arithmetic operations
+as they occur in ℝ.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>The input`r` must be a real number (either an int or a float).</p></li>
+</ul>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>ℝ is a field; every nonzero element has a multiplicative inverse. For any <span class="math notranslate nohighlight">\(r, s \in \mathbb{R}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[r + s \in \mathbb{R}, \quad r \cdot s \in \mathbb{R}, \quad r - s \in \mathbb{R}, \quad \text{and if } r \neq 0,\; \frac{1}{r} \in \mathbb{R}.\]</div>
+<p>This class models ℝ using floating-point arithmetic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>r</strong> -- A real number to be encapsulated as an element of ℝ.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> -- If`r` is not a number.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.R.zero">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.R.zero" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the additive identity (0.0) in ℝ.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>0 is the unique element satisfying:</p>
+<div class="math notranslate nohighlight">
+\[r + 0 = r \quad \forall r \in \mathbb{R}.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An R object representing 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.R.mul_id">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mul_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.R.mul_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the multiplicative identity (1.0) in ℝ.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>1 is the unique element satisfying:</p>
+<div class="math notranslate nohighlight">
+\[r \cdot 1 = r \quad \forall r \in \mathbb{R}.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An R object representing 1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.R.abs">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">abs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.R.abs" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the absolute value of a real number element.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>Defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}|r| = \begin{cases} r, &amp; r \ge 0 \\ -r, &amp; r &lt; 0 \end{cases}.\end{split}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>a</strong> -- An R object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An R object containing the absolute value of a.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_n">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.SingletonStructures.</span></span><span class="sig-name descname"><span class="pre">Z_n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.SingletonStructures.Z_n" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents an element of the ring of integers modulo n, ℤₙ.</p>
+<p>Each element is stored as a residue class modulo n. Arithmetic operations are performed
+modulo n. This class supports addition, multiplication, subtraction, exponentiation, and,
+for units, computing inverses and orders.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>The modulus`n` must be a positive integer.</p></li>
+<li><p>The element`z` must be a Python integer; it is automatically reduced modulo n.</p></li>
+</ul>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>In ℤₙ, for an integer <span class="math notranslate nohighlight">\(a\)</span> and modulus <span class="math notranslate nohighlight">\(n\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[a \mod n \in \{0, 1, \dots, n-1\},\]</div>
+<p>and when n is prime, ℤₙ forms a field. This class models the residue classes with the usual
+modular arithmetic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> -- An integer representing the element in ℤ.</p></li>
+<li><p><strong>n</strong> -- The modulus for the residue class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> -- If z or n is not an integer, or if n is invalid.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_n.order">
+<span class="sig-name descname"><span class="pre">order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_n.order" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the order of the element in the multiplicative group of units U(n).</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For an element <span class="math notranslate nohighlight">\(a \in \mathbb{Z}_n\)</span> that is invertible, its order is the smallest
+positive integer <span class="math notranslate nohighlight">\(k\)</span> such that:</p>
+<div class="math notranslate nohighlight">
+\[a^k \equiv 1 \pmod{n}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>The element must be a unit (i.e., <span class="math notranslate nohighlight">\(\gcd(a, n) = 1\)</span>).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Z object representing the order.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> -- If the element is not a unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_n.inverse">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_n.inverse" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the multiplicative inverse of the element in ℤₙ.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For a unit <span class="math notranslate nohighlight">\(a \in \mathbb{Z}_n\)</span> (with <span class="math notranslate nohighlight">\(\gcd(a, n) = 1\)</span>), there exists an inverse <span class="math notranslate nohighlight">\(a^{-1}\)</span>
+such that:</p>
+<div class="math notranslate nohighlight">
+\[a \cdot a^{-1} \equiv 1 \pmod{n}.\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>The element must be a unit.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Z_n object representing the inverse.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> -- If the element is not invertible.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_mod_">
+<span class="sig-prename descclassname"><span class="pre">algepy.SingletonStructures.</span></span><span class="sig-name descname"><span class="pre">Z_mod_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#algepy.SingletonStructures.Z_n" title="algepy.SingletonStructures.Z_n"><span class="pre">Z_n</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_mod_" title="Link to this definition">¶</a></dt>
+<dd><p>Returns a specialized constructor for the ring ℤₙ (integers modulo n).</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>ℤₙ consists of residue classes:</p>
+<div class="math notranslate nohighlight">
+\[\mathbb{Z}_n = \{0, 1, \dots, n-1\},\]</div>
+<p>with operations defined modulo n. For prime n, ℤₙ is a field; for composite n, the unit group
+(the set of invertible elements) is given by:</p>
+<div class="math notranslate nohighlight">
+\[U(n) = \{ a \in \mathbb{Z}_n : \gcd(a, n) = 1 \}.\]</div>
+<p>This function returns a subclass of Z_n that encapsulates additional properties (e.g., cyclicity, primitive roots)
+depending on whether n is prime or composite.</p>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>n must be a positive integer (n ∈ ℕ, n &gt; 0).</p></li>
+<li><p>n = 0 is not allowed.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> -- A positive integer representing the modulus.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A callable (class) for constructing elements of ℤₙ with the given modulus.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Exception</strong> -- If n is not a positive integer or if n equals 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z__">
+<span class="sig-prename descclassname"><span class="pre">algepy.SingletonStructures.</span></span><span class="sig-name descname"><span class="pre">Z__</span></span><a class="headerlink" href="#algepy.SingletonStructures.Z__" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">Z_</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">algepy.SingletonStructures.</span></span><span class="sig-name descname"><span class="pre">Z_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#algepy.SingletonStructures.Z_" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#algepy.SingletonStructures.Z_n" title="algepy.SingletonStructures.Z_n"><code class="xref py py-class docutils literal notranslate"><span class="pre">Z_n</span></code></a></p>
+<p>NOTE: This is the subclass constructed by function Z_mod_().</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.elements">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.elements" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.is_cyclic">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_cyclic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.is_cyclic" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.legendre">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">legendre</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.legendre" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the Legendre symbol <span class="math notranslate nohighlight">\(\left(\frac{a}{p}\right)\)</span> for a in ℤ, where p is an odd prime.</p>
+<p><strong>Mathematical Intuition:</strong></p>
+<p>For an odd prime <span class="math notranslate nohighlight">\(p\)</span>, the Legendre symbol is defined by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left(\frac{a}{p}\right) = \begin{cases}
+0, &amp; \text{if } p \mid a, \\
+1, &amp; \text{if } a \text{ is a quadratic residue modulo } p, \\
+-1, &amp; \text{if } a \text{ is a non-residue modulo } p.
+\end{cases}\end{split}\]</div>
+<p><strong>Preconditions:</strong></p>
+<ul class="simple">
+<li><p>p (here, the modulus) must be an odd prime.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>z</strong> -- An element of ℤₙ.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Legendre symbol as a Z object.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Exception</strong> -- If the modulus is 2.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.modulus">
+<span class="sig-name descname"><span class="pre">modulus</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#algepy.SingletonStructures.Z_.modulus" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.mul_id">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mul_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.mul_id" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.primitive_roots">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">primitive_roots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.primitive_roots" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.total_order">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.total_order" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.unit_order">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unit_order</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#algepy.SingletonStructures.Z" title="algepy.SingletonStructures.Z"><span class="pre">Z</span></a></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.unit_order" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.units">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">units</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.units" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="algepy.SingletonStructures.Z_.zero">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zero</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#algepy.SingletonStructures.Z_.zero" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<section id="module-algepy">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-algepy" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
@@ -82,10 +1616,10 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">algepy Package API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#algepy-discretefunctions-module">algepy.DiscreteFunctions module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#algepy-quadraticstructures-module">algepy.QuadraticStructures module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#algepy-singletonstructures-module">algepy.SingletonStructures module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-algepy.DiscreteFunctions">algepy.DiscreteFunctions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-algepy.QuadraticStructures">algepy.QuadraticStructures module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-algepy.SingletonStructures">algepy.SingletonStructures module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-algepy">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">algepy</a><ul class="current">
