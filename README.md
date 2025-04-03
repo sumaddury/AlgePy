@@ -85,9 +85,9 @@ print("q inverse =", q.inverse())
 ---
 ## 3. Documentation & Analysis
 
-### Full Documentation: [sumaddury.github.io/AlgePy](https://sumaddury.github.io/AlgePy/)
+### Full Documentation: [sumaddury.github.io/AlgePy](https://sumaddury.github.io/AlgePy/index.html)
     API Reference: Detailed API docs are automatically generated using Sphinx.
-### Complexity Analysis: [/complexity/complexity_report.pdf](https://github.com/sumaddury/AlgePy/blob/main/complexity/complexity_report.pdf)
+### Complexity Analysis: [/complexity/](https://github.com/sumaddury/AlgePy/blob/main/complexity/)
 
 ---
 ## 4. Citation
