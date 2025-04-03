@@ -26,7 +26,7 @@
 - **`R`:**  Models real numbers (ℝ) with standard arithmetic operations.
 - **`Z_n` & `Z_mod_`:**  Provide modular arithmetic (ℤₙ) functionality, including methods for computing orders, inverses, cyclicity, primitive roots, and the Legendre symbol.
 
-#### `SingletonStructures`
+#### `QuadraticStructures`
 - **`C`:**  Models real numbers (ℂ) with standard arithmetic operations.
 - **`Q`:**  Represents elements of the field of rationals (ℚ) with overloaded arithmetic.
 - **`QuadInt` & `QuadIntRing`:**  Provide quadratic integer (ℤ[ω]) functionality, including methods for floor division, greatest-common-divisor (gcd), normalization, and factorization. Also provided are ring-wide functions such as fundamental and imaginary unit search.
