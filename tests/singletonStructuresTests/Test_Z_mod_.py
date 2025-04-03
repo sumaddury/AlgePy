@@ -7,8 +7,8 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'algepy')))
 
-from SingletonStructures import Z_mod_
-from DiscreteFunctions import PrimalityTesting, ArithmeticFunctions
+from .SingletonStructures import Z_mod_
+from .DiscreteFunctions import PrimalityTesting, ArithmeticFunctions
 
 #python -m unittest tests/singletonStructuresTests/Test_Z_mod_.py
 

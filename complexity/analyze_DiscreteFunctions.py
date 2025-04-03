@@ -17,7 +17,7 @@ os.makedirs(REPORTS_DIR, exist_ok=True)
 #   - 'data_gen': a data generator that accepts an integer n and returns an input,
 #   - 'min_n', 'max_n', 'step', 'cluster', 'n_repeats': analysis parameters,
 #   - 'force_int': if True, the generated value is cast to int.
-from DiscreteFunctions import PrimalityTesting, PrimeNumberTheorem, Factorization, ArithmeticFunctions
+from .DiscreteFunctions import PrimalityTesting, PrimeNumberTheorem, Factorization, ArithmeticFunctions
 
 targets = [
     # --- PrimalityTesting methods ---

@@ -6,7 +6,7 @@ import sys
 import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'algepy')))
-from DiscreteFunctions import PrimalityTesting
+from .DiscreteFunctions import PrimalityTesting
 
 #python -m unittest tests/discreteFunctionsTests/Test_PrimalityTesting.py
 

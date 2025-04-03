@@ -17,8 +17,8 @@ os.makedirs(REPORTS_DIR, exist_ok=True)
 #   - 'data_gen': a data generator that accepts an integer n and returns an input,
 #   - 'min_n', 'max_n', 'step', 'cluster', 'n_repeats': analysis parameters,
 #   - 'force_int': if True, the generated value is cast to int.
-from SingletonStructures import Z, R
-from QuadraticStructures import C, Q, QuadInt, QuadIntRing, QuadRat, QuadRatField
+from .SingletonStructures import Z, R
+from .QuadraticStructures import C, Q, QuadInt, QuadIntRing, QuadRat, QuadRatField
 ring = QuadIntRing(2, force_ufd=True)
 ring_imag = QuadIntRing(-2, force_ufd=True)
 field = QuadRatField(2)

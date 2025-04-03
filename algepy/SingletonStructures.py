@@ -2,7 +2,7 @@ import typing
 from typing import Callable, Self
 import math
 import sys
-from DiscreteFunctions import PrimalityTesting, Factorization, ArithmeticFunctions
+from .DiscreteFunctions import PrimalityTesting, Factorization, ArithmeticFunctions
 
 class Z:
     r"""

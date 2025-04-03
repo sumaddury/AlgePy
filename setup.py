@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 setup(
     name='algepy', 
     version='0.0.1',      
-    packages=find_packages(where="algepy"),
+    packages=find_packages(),
     install_requires=[
     ],     
     description='A Python library for efficient number theory and abstract algebra.',  
@@ -13,5 +13,4 @@ setup(
     url='https://github.com/sumaddury/algepy',
     author='Sucheer Maddury',
     author_email='sm2939@cornell.edu',
-    package_dir={"": "algepy"},
 )

@@ -7,8 +7,8 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'algepy')))
 
-from QuadraticStructures import C
-from SingletonStructures import R, Z
+from .QuadraticStructures import C
+from .SingletonStructures import R, Z
 
 #python -m unittest tests/quadraticStructuresTests/Test_C.py
 

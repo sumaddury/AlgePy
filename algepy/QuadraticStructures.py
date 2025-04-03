@@ -2,8 +2,8 @@ import typing
 from typing import Callable, Self
 import math
 import sys
-from SingletonStructures import Z, R, Z_n, Z_mod_
-from DiscreteFunctions import ArithmeticFunctions, Factorization
+from .SingletonStructures import Z, R, Z_n, Z_mod_
+from .DiscreteFunctions import ArithmeticFunctions, Factorization
 
 class C:
     r"""
