@@ -26,12 +26,13 @@ language = 'English'
 
 html_theme = 'alabaster'
 html_static_path = ['_static']
+autodoc_member_order = 'bysource'
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src')))
+sys.path.insert(0, os.path.abspath('../../'))
 
 extensions = [
     'sphinx.ext.autodoc',  # Auto-generates docs from docstrings
-    'sphinx.ext.napoleon'  # Supports Google-style docstrings
+    'sphinx.ext.napoleon',  # Supports Google-style docstrings
 ]
