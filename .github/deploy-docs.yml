@@ -22,7 +22,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build Documentation
-        working-directory: docs/source
+        working-directory: docs
         run: |
           make html
 
