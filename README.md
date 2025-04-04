@@ -86,6 +86,7 @@ q = field(Q(3, 1), Q(5, 1))
 print("q =", q)
 print("q inverse =", q.inverse())
 ```
+CHECK: [demo.ipynb](https://github.com/sumaddury/AlgePy/blob/main/demo.ipynb) for cool artwork!
 
 ---
 ## 3. Documentation & Analysis
