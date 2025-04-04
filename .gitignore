@@ -6,7 +6,8 @@ __pycache__/
 discrete_env/
 .hypothesis/
 
-docs/build/
+build/
+dist/
 
 complexity/reports/
 notebooks/

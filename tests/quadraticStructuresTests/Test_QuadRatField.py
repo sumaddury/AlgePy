@@ -5,11 +5,11 @@ import random
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'algepy')))
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'algepy')))
 
-from .QuadraticStructures import QuadRatField, QuadRat, Q, QuadIntRing
-from .SingletonStructures import Z
-from .DiscreteFunctions import ArithmeticFunctions
+from algepy.QuadraticStructures import QuadRatField, QuadRat, Q, QuadIntRing
+from algepy.SingletonStructures import Z
+from algepy.DiscreteFunctions import ArithmeticFunctions
 
 #python -m unittest tests/quadraticStructuresTests/Test_QuadIntRing.py
 

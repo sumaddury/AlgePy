@@ -5,7 +5,7 @@ import sys
 import subprocess
 from Analyze import analyze_complexity, safe_data_gen, save_plot, generate_report
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'algepy')))
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'algepy')))
 
 REPORTS_DIR = os.path.join(os.path.dirname(__file__), "reports/complexitySingletonStructures")
 os.makedirs(REPORTS_DIR, exist_ok=True)
@@ -17,7 +17,7 @@ os.makedirs(REPORTS_DIR, exist_ok=True)
 #   - 'data_gen': a data generator that accepts an integer n and returns an input,
 #   - 'min_n', 'max_n', 'step', 'cluster', 'n_repeats': analysis parameters,
 #   - 'force_int': if True, the generated value is cast to int.
-from .SingletonStructures import Z, R, Z_n, Z_mod_
+from algepy.SingletonStructures import Z, R, Z_n, Z_mod_
 
 targets = [
     {

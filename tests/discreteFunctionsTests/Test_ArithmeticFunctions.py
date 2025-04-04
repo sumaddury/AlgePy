@@ -5,9 +5,9 @@ import random
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'algepy')))
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'algepy')))
 
-from .DiscreteFunctions import ArithmeticFunctions, Factorization, PrimalityTesting
+from algepy.DiscreteFunctions import ArithmeticFunctions, Factorization, PrimalityTesting
 
 #python -m unittest tests/discreteFunctionsTests/Test_ArithmeticFunctions.py
 

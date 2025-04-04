@@ -39,7 +39,12 @@ AlgePy also integrates empirical complexity analysis to assess the performance o
 
 ### Installation
 
-Install AlgePy directly from GitHub:
+Install AlgePy via PyPi:
+```bash
+pip install algepy-tools
+```
+
+Or install directly from GitHub:
 
 ```bash
 pip install git+https://github.com/sumaddury/AlgePy.git
