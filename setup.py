@@ -7,7 +7,7 @@ with open("requirements.txt") as f:
 
 setup(
     name='algepy-tools', 
-    version='0.1.1',      
+    version='0.1.2',      
     packages=find_packages(),
     install_requires=requirements,     
     description='A Python library for efficient number theory and abstract algebra.',  

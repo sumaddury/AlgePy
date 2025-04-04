@@ -18,6 +18,7 @@ notebooks/
 .DS_Store
 
 tree.txt
+merge_reqs.py
 
 *.egg-info/
 .env

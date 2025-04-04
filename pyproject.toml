@@ -4,7 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "algepy-tools"
-version = "0.1.1"
+authors = [
+    { name = "Sucheer Maddury", email = "sm2939@cornell.edu" }
+]
+version = "0.1.2"
 description = "A Python library for efficient number theory and abstract algebra, featuring tools for primality testing, factorization, and advanced modular arithmetic."
 readme = "README.md"
 requires-python = ">=3.7"
